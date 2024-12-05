@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Nest Dashboard</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="" />
+        <meta property="og:type" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="" />
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
+        <!-- Template CSS -->
+        <script src="assets/js/vendors/color-modes.js"></script>
+        <link href="assets/css/main.css?v=6.0" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="index.html" class="brand-wrap">
+                    <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li class="menu-item active">
+                        <a class="menu-link" href="index.html">
+                            <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-products-list.html">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Products</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="page-products-list.html">Product List</a>
+                            <a href="page-products-grid.html">Product grid</a>
+                            <!-- <a href="page-products-grid-2.html">Product grid 2</a> -->
+                            <a href="page-categories.html">Categories</a>
+                        </div>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-orders-1.html">
+                            <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="page-orders-2.html">Order list 2</a>
+                            <a href="page-orders-detail.html">Order detail</a>
+                        </div>
+                    </li>
+                    <li class="menu-item active">
+                        <a class="menu-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#878e9a" style="margin-right: 9px;">
+                                <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/>
+                            </svg>
+                            <span class="text">Customers</span>
+                        </a>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-sellers-cards.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#878e9a" style="margin-right: 9px;"><path d="m228-240 92-160q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 23-5.5 42.5T458-480L320-240h-92Zm360 0 92-160q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 23-5.5 42.5T818-480L680-240h-92ZM320-500q25 0 42.5-17.5T380-560q0-25-17.5-42.5T320-620q-25 0-42.5 17.5T260-560q0 25 17.5 42.5T320-500Zm360 0q25 0 42.5-17.5T740-560q0-25-17.5-42.5T680-620q-25 0-42.5 17.5T620-560q0 25 17.5 42.5T680-500Zm0-60Zm-360 0Z"/></svg>Quotations</a>
+                        <div class="submenu">
+                            <a href="page-sellers-cards.html">Proposed Quotations</a>
+                            <a href="given-quotation.html">Given Quotations</a>
+                        </div>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-form-product-1.html">
+                            <i class="icon material-icons md-add_box"></i>
+                            <span class="text">Add product</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="page-form-product-1.html">Add product 1</a>
+                        </div>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-transactions-1.html">
+                            <i class="icon material-icons md-monetization_on"></i>
+                            <span class="text">Transactions</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="page-transactions-2.html">Transaction 2</a>
+                        </div>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="#">
+                            <i class="icon material-icons md-person"></i>
+                            <span class="text">Account</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="page-account-login.html">User login</a>
+                            <a href="page-account-register.html">User registration</a>
+                            <a href="page-error-404.html">Error 404</a>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="page-reviews.html">
+                            <i class="icon material-icons md-comment"></i>
+                            <span class="text">Notifications</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="page-brands.html"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#878e9a" style="margin-right: 9px;"><path d="M841-518v318q0 33-23.5 56.5T761-120H201q-33 0-56.5-23.5T121-200v-318q-23-21-35.5-54t-.5-72l42-136q8-26 28.5-43t47.5-17h556q27 0 47 16.5t29 43.5l42 136q12 39-.5 71T841-518Zm-272-42q27 0 41-18.5t11-41.5l-22-140h-78v148q0 21 14 36.5t34 15.5Zm-180 0q23 0 37.5-15.5T441-612v-148h-78l-22 140q-4 24 10.5 42t37.5 18Zm-178 0q18 0 31.5-13t16.5-33l22-154h-78l-40 134q-6 20 6.5 43t41.5 23Zm540 0q29 0 42-23t6-43l-42-134h-76l22 154q3 20 16.5 33t31.5 13ZM201-200h560v-282q-5 2-6.5 2H751q-27 0-47.5-9T663-518q-18 18-41 28t-49 10q-27 0-50.5-10T481-518q-17 18-39.5 28T393-480q-29 0-52.5-10T299-518q-21 21-41.5 29.5T211-480h-4.5q-2.5 0-5.5-2v282Zm560 0H201h560Z"/></svg></i> <span class="text">Frontend Site</span> </a>
+                    </li>
+                    <!-- <li class="menu-item">
+                        <a class="menu-link" disabled href="#">
+                            <i class="icon material-icons md-pie_chart"></i>
+                            <span class="text">Statistics</span>
+                        </a>
+                    </li> -->
+                </ul>
+                <hr />
+                <ul class="menu-aside">
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="#">
+                            <i class="icon material-icons md-settings"></i>
+                            <span class="text">Settings</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="page-settings-1.html">Setting sample 1</a>
+                        </div>
+                    </li>
+                    <!-- <li class="menu-item">
+                        <a class="menu-link" href="page-blank.html">
+                            <i class="icon material-icons md-local_offer"></i>
+                            <span class="text"> Starter page </span>
+                        </a>
+                    </li> -->
+                </ul>
+                <br />
+                <br />
+            </nav>
+        </aside>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products"></option>
+                            <option value="New orders"></option>
+                            <option value="Apple iphone"></option>
+                            <option value="Ahmed Hassan"></option>
+                        </datalist>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                                <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English" />English</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                            </div>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User" /></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section class="content-main">
+                <div class="row">
+                    <div class="col-9">
+                        <div class="content-header">
+                            <h2 class="content-title">Create Quotation</h2>
+                            <!-- <button id="add-product-button" class="btn btn-md rounded font-sm hover-up">Send</button> -->
+                        </div>
+                    </div>
+                    <form id="quoteForm" style="max-width: 800px; margin: 20px auto; padding: 20px; background-color: #f7f7f7; border-radius: 10px; font-family: Arial, sans-serif; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+                        <h2 style="text-align: center; margin-bottom: 20px; font-size: 24px; color: #333;">Quotation Form</h2>
+                      
+                        <!-- Client Field -->
+                        <label for="client" style="display: block; margin-bottom: 5px; font-weight: bold; color: black;;">Client Name:</label>
+                        <input type="text" id="client" name="client" placeholder="Enter client name" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; background-color: #bab6b6">
+
+                        <!-- Client unique code(mongodb code) -->
+                        <label for="clientCode" style="display: block; margin-bottom: 5px; font-weight: bold; color: black;">Client Code:</label>
+                        <input type="text" id="client-code" name="client-code" placeholder="Client Code" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; background-color: #bab6b6;">
+                      
+                        <!-- Quote Code Field -->
+                        <label for="quoteCode" style="display: block; margin-bottom: 5px; font-weight: bold; color: black;">Quote Code:</label>
+                        <input type="text" id="quoteCode" name="quoteCode" placeholder="Enter quote code" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; background-color: #bab6b6;">
+                      
+                        <!-- Quote Date Field -->
+                        <label for="quoteDate" style="display: block; margin-bottom: 5px; font-weight: bold; color: black">Quote Date:</label>
+                        <input type="date" id="quoteDate" name="quoteDate" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; background-color: #bab6b6;">
+                      
+                        <!-- Due Date Field -->
+                        <label for="dueDate" style="display: block; margin-bottom: 5px; font-weight: bold; color: black">Due Date:</label>
+                        <input type="date" id="dueDate" name="dueDate" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+                      
+                        <!-- Product Rows Section -->
+                        <div id="productRows" style="margin-bottom: 20px; color: black">
+                            <strong>Products:</strong>
+                          <!-- Default Product Row -->
+                          <div class="product-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                            <select class="productSelect" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                              <!-- <option value="" disabled selected>Loading products...</option> -->
+                            </select>
+                            <input type="text" placeholder="Properties" class="propertiesField" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                            <button type="button" class="deleteRow" style="padding: 5px 10px; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Delete</button>
+                          </div>
+                        </div>
+                      
+                        <!-- Add Product Row Button -->
+                        <button type="button" id="addRowButton" style="width: 100%; padding: 12px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-bottom: 15px;">
+                          Add Product Row
+                        </button>
+                      
+                        <!-- Notes Field -->
+                        <label style="display: block; margin-bottom: 5px; color: black">Notes:</label>
+                        <textarea id="notes" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+                      
+                        <!-- Terms Field -->
+                        <label style="display: block; margin-bottom: 5px; color: black">Terms:</label>
+                        <textarea id="terms" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+                      
+                        <!-- Submit Button -->
+                        <button type="submit" style="width: 100%; padding: 12px; background-color: #28a745; color: #fff; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+                          Submit
+                        </button>
+                      </form>
+                      
+                      
+
+                      
+                      
+                      <template id="productRowTemplate">
+                        <div class="product-row" style="margin-bottom: 10px;">
+                          <select class="product-select" style="width: 200px; padding: 5px; margin-right: 10px; border-radius: 5px;">
+                            <option value="" disabled selected>Select Product</option>
+                            <!-- Products will be populated here -->
+                          </select>
+                          <input type="text" class="product-details" placeholder="Details" style="width: 200px; padding: 5px; margin-right: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                          <input type="number" class="product-price" placeholder="Price" style="width: 100px; padding: 5px; margin-right: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                          <button type="button" class="delete-row" style="padding: 5px 10px; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Delete</button>
+                        </div>
+                      </template> 
+                </div>
+            </section>
+            <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+        <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/vendors/select2.min.js"></script>
+        <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+        <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+        <!-- Main Script -->
+        <script src="assets/js/main.js?v=6.0" type="text/javascript"></script>
+
+<!-- dynamically filling the clients detaild -->
+<script>// Function to get JWT token from localStorage
+    function getJWTToken() {
+        return localStorage.getItem('token'); // Retrieve JWT from localStorage
+    }
+    
+    // Function to decode JWT token and safely extract clientId
+    function decodeJWT(token) {
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1])); // Decode the payload from the JWT token
+            console.log(payload)
+            return payload.id; // Extract client ID or user ID from the payload
+        } catch (error) {
+            console.error('Error decoding JWT token:', error);
+            return null;
+        }
+    }
+    
+    // Function to fetch client details by clientId from the API
+    async function fetchClientDetails(clientId) {
+        const apiUrl = `http://localhost:8000/clients/by-id-client/${clientId}`;
+        
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${getJWTToken()}`, // Include JWT in the request header
+                },
+            });
+            
+            const data = await response.json();
+            console.log("client is ->",data.client)
+
+            
+            // Check if the response is successful and contains client data
+            if (response.ok && data.success && data.client) {
+                // Assuming the client object has a 'name' property or similar
+                document.getElementById('client-code').value = data.client.CustomerId; // Adjust based on actual property name
+                document.getElementById('client').value = data.client.FirstName + " " + data.client.LastName; // Adjust based on actual property name 
+                document.getElementById('client').setAttribute('readonly', 'readonly');
+
+
+
+                const getRandomLetter = () => {
+                    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    return letters.charAt(Math.floor(Math.random() * letters.length));
+                    };
+                const getRandomNumber = () => {
+                    return Math.floor(Math.random() * 100);
+                    };
+                const getFinalLetter = () => {
+                    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    return letters.charAt(Math.floor(Math.random() * letters.length));
+                    };
+                const lettersPart = getRandomLetter() + getRandomLetter();
+                const numberPart = getRandomNumber().toString().padStart(2, '0');
+                const finalLetter = getFinalLetter();
+                const QuoteCode = 'Q' + lettersPart + numberPart + finalLetter;
+                document.getElementById('quoteCode').value = QuoteCode
+                document.getElementById('quoteCode').setAttribute('readonly', 'readonly');
+
+                const currentDate = new Date().toISOString().split('T')[0]; // Get current date in 'YYYY-MM-DD' format
+                document.getElementById('quoteDate').value = currentDate; 
+                document.getElementById('quoteDate').setAttribute('readonly', 'readonly');
+
+
+            } else {
+                console.error('Client not found or invalid response:', data.message);
+                alert('Client not found. Please check your request or contact support.');
+            }
+        } catch (error) {
+            console.error('Error fetching client information:', error);
+            alert('Error fetching client information. Please try again later.');
+        }
+    }
+    
+    // Function to initialize the client code input field and make the API request
+    function initializeClientCode() {
+        const jwt = getJWTToken();
+        
+        if (!jwt) {
+            console.error('JWT token not found in localStorage');
+            alert('You must be logged in to access this page.');
+            window.location.href = 'page-account-login.html'; // Redirect to login if no token
+            return;
+        }
+    
+        const clientId = decodeJWT(jwt);
+        
+        if (!clientId) {
+            console.error('Client ID not found in the token');
+            alert('Error with the JWT token. Please log in again.');
+            window.location.href = 'page-account-login.html'; // Redirect to login if clientId is missing
+            return;
+        }
+    
+        // Set the client code input field to the clientId and make it read-only
+        const clientCodeInput = document.getElementById('client-code');
+        clientCodeInput.setAttribute('readonly', 'readonly'); // Make input field read-only
+    
+        // Fetch client details using the clientId and populate the input field
+        fetchClientDetails(clientId);
+    }
+    
+    // Initialize client code input field when the page loads
+    window.onload = initializeClientCode;
+     </script>
+
+
+        
+        <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Fetching products from the API
+    fetch("http://localhost:8000/products/getProduct/getAll")
+      .then(response => response.json())
+      .then(data => {
+        // Populate the first product select input with products
+        const productSelectElements = document.querySelectorAll('.productSelect');
+        const products = data.products; // Assuming the response contains a 'products' array
+        productSelectElements.forEach(selectElement => {
+          products.forEach(product => {
+            const option = document.createElement('option');
+            option.value = product._id; // Assuming the product has an 'id'
+            option.textContent = product.ProductTitle; // Assuming the product has a 'name'
+            selectElement.appendChild(option);
+          });
+        });
+      })
+      .catch(error => console.error('Error fetching products:', error));
+
+    // Add Product Row
+    document.getElementById("addRowButton").addEventListener("click", () => {
+      const productRowsContainer = document.getElementById("productRows");
+
+      const newRow = document.createElement("div");
+      newRow.classList.add("product-row");
+      newRow.style.display = "flex";
+      newRow.style.alignItems = "center";
+      newRow.style.gap = "10px";
+      newRow.style.marginBottom = "15px";
+
+      // Product Select Input
+      const productSelect = document.createElement("select");
+      productSelect.classList.add("productSelect");
+      productSelect.style.flex = "1";
+      productSelect.style.padding = "10px";
+      productSelect.style.border = "1px solid #ccc";
+      productSelect.style.borderRadius = "5px";
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      defaultOption.textContent = "Select Product";
+      productSelect.appendChild(defaultOption);
+
+      // Properties Input Field
+      const propertiesField = document.createElement("input");
+      propertiesField.type = "text";
+      propertiesField.placeholder = "Properties";
+      propertiesField.classList.add("propertiesField");
+      propertiesField.style.flex = "1";
+      propertiesField.style.padding = "10px";
+      propertiesField.style.border = "1px solid #ccc";
+      propertiesField.style.borderRadius = "5px";
+
+      // Delete Button for this row
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.classList.add("deleteRow");
+      deleteButton.style.padding = "5px 10px";
+      deleteButton.style.backgroundColor = "#dc3545";
+      deleteButton.style.color = "#fff";
+      deleteButton.style.border = "none";
+      deleteButton.style.borderRadius = "5px";
+      deleteButton.style.cursor = "pointer";
+      deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", () => {
+        newRow.remove();
+      });
+
+      newRow.appendChild(productSelect);
+      newRow.appendChild(propertiesField);
+      newRow.appendChild(deleteButton);
+
+      productRowsContainer.appendChild(newRow);
+
+      // Re-fetch products when new row is added to populate the select input
+      fetch("http://localhost:8000/products/getProduct/getAll")
+        .then(response => response.json())
+        .then(data => {
+          const productSelect = newRow.querySelector('.productSelect');
+          data.products.forEach(product => {
+            const option = document.createElement('option');
+            option.value = product._id;
+            option.textContent = product.ProductTitle;
+            productSelect.appendChild(option);
+          });
+        });
+    });
+
+    // Handle form submission
+    document.getElementById("quoteForm").addEventListener("submit", (event) => {
+      event.preventDefault(); // Prevent form submission
+
+      // Collecting form data
+      const client = document.getElementById("client").value;
+      const clientCode = document.getElementById("client-code").value;
+      const quoteCode = document.getElementById("quoteCode").value;
+      const quoteDate = document.getElementById("quoteDate").value;
+      const dueDate = document.getElementById("dueDate").value;
+      const notes = document.getElementById("notes").value;
+      const terms = document.getElementById("terms").value;
+
+      const products = [];
+      const productRows = document.querySelectorAll(".product-row");
+
+      productRows.forEach(row => {
+        const productSelect = row.querySelector(".productSelect");
+        const propertiesField = row.querySelector(".propertiesField");
+
+        if (productSelect.value && propertiesField.value) {
+          products.push({
+            productId: productSelect.value,
+            properties: propertiesField.value,
+          });
+        }
+      });
+
+      // Prepare data for submission
+      const formData = {
+        client,
+        quoteCode,
+        clientCode,
+        quoteDate,
+        dueDate,
+        notes,
+        terms,
+        products, // Array of product objects with properties
+      };
+console.log(formData)
+      // Sending data to the database (example API request)
+      fetch('http://localhost:8000/quotations/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert("Quotation submitted successfully!");
+          console.log(data);
+        })
+        .catch(error => {
+          alert("Error submitting quotation!");
+          console.error(error);
+        });
+    });
+  });
+</script>
+
+    </body>
+</html>
