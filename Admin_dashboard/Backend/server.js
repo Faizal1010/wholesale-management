@@ -2553,6 +2553,7 @@ app.use('/categories', require('./Routes/CategoriesRoutes'));
 app.use('/clients', require('./Routes/ClientRoute'))
 app.use('/auth', require('./Routes/authRoutes'))
 app.use('/orders', require('./Routes/OrderRoutes'))
+app.use('/quotes', require('./Routes/QuotationRoute'))
 
 const PORT = process.env.PORT || 8000;
 
