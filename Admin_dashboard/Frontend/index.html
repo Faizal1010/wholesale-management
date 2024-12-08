@@ -16,35 +16,36 @@
         <script src="assets/js/vendors/color-modes.js"></script>
         <link href="assets/css/main.css?v=6.0" rel="stylesheet" type="text/css" />
         <script>
-const token = localStorage.getItem('token'); // Retrieve the token from localStorage
-
-if (!token) {
-    alert('No token found. Redirecting to login.');
-    window.location.href = 'page-account-login.html'; // Redirect to login page
-} else {
-    fetch('http://localhost:8000/auth/check-session', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`, // Send the token in the Authorization header
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (!data.success) {
-                alert('Session expired or not logged in. Redirecting to login.');
-                window.location.href = 'page-account-login.html'; // Redirect to login page
-            } else {
-                console.log('Session valid. Welcome:', data.userEmail);
+            document.addEventListener('DOMContentLoaded', () => {
+                const token = localStorage.getItem('token');
+        
+                if (!token) {
+                    alert('Access denied. Please log in.');
+                    window.location.href = 'page-account-login.html'; // Redirect to login page
+                    return;
+                }
+        
+                // Decode the JWT to verify the user's role
+                const decodedToken = decodeJWT(token);
+        
+                if (!decodedToken || decodedToken.role !== 'admin') {
+                    alert('Unauthorized access. Admins only.');
+                    window.location.href = 'page-account-login.html'; // Redirect to login page
+                }
+            });
+        
+            // Function to decode the JWT and extract the payload
+            function decodeJWT(token) {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1])); // Decode the payload from the JWT token
+                    return payload;
+                } catch (error) {
+                    console.error('Error decoding JWT token:', error);
+                    return null;
+                }
             }
-        })
-        .catch((error) => {
-            console.error('Error verifying session:', error);
-            alert('Error verifying session. Redirecting to login.');
-            window.location.href = 'page-account-login.html';
-        });
-}
-
         </script>
+        
     </head>
 
     <body>
@@ -131,7 +132,7 @@ if (!token) {
                         </div>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link" href="page-reviews.html">
+                        <a class="menu-link" href="page-notification-list.html">
                             <i class="icon material-icons md-comment"></i>
                             <span class="text">Notifications</span>
                         </a>

@@ -2554,6 +2554,7 @@ app.use('/clients', require('./Routes/ClientRoute'))
 app.use('/auth', require('./Routes/authRoutes'))
 app.use('/orders', require('./Routes/OrderRoutes'))
 app.use('/quotes', require('./Routes/QuotationRoute'))
+app.use('/notification', require('./Routes/NotificationRoute'))
 
 const PORT = process.env.PORT || 8000;
 

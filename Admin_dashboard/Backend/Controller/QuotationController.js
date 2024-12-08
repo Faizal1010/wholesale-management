@@ -30,9 +30,9 @@ const quoteSubmissionByClient = async (req, res) => {
       notes,
       terms,
       products, // Use products array as-is
-    });
-
-    // Save the quotation to the database
+      attended: false
+    }); 
+      // Save the quotation to the database
     const savedQuotation = await newQuotation.save();
 
     // Respond with the saved quotation

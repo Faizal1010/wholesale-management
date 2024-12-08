@@ -1,5 +1,5 @@
 const express = require('express')
-const { addClient, getClient, deleteClient, uploadProfile, getLatestClients, getClientById } = require('../Controller/clientController')
+const { addClient, getClient, deleteClient, uploadProfile, getLatestClients, getClientById, getClientByCustomerId } = require('../Controller/clientController')
 const router = express.Router()
 
 router.post('/add-client', addClient)
@@ -13,6 +13,9 @@ router.post('/upload-profile', uploadProfile)
 router.get('/latest-Clients', getLatestClients)
 
 router.get('/by-id-client/:id', getClientById)
+
+//this handler is to get client by customer code(eg. CJH45P)
+router.get('/code-client/:customerId', getClientByCustomerId)
 
 module.exports = router
 

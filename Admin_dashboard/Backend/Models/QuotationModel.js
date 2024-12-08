@@ -38,6 +38,10 @@ const QuotationSchema = new mongoose.Schema({
   },
   terms: {
     type: String,
+  },
+  attended:{
+    type: Boolean,
+    required: true
   }
 }, { timestamps: true });
 

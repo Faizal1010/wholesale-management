@@ -100,15 +100,6 @@
                     </div>
                 </div>
             </section>
-            <footer class="main-footer text-center">
-                <p class="font-xs">
-                    <script>
-                        document.write(new Date().getFullYear());
-                    </script>
-                    &copy; Nest - HTML Ecommerce Template .
-                </p>
-                <p class="font-xs mb-30">All rights reserved</p>
-            </footer>
         </main>
         <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
         <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
@@ -122,38 +113,71 @@
 
 <!-- Login -->
 <script>
-document.getElementById('login').addEventListener('click', function (e) {
-    e.preventDefault();
-
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    fetch('http://localhost:8000/auth/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ Email: email, Password: password }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Store the token in localStorage
-            console.log(data.token)
-            localStorage.setItem('token', data.token);
-            alert('Login successful!');
-                window.location.href = 'index.html'; // Redirect to index page after successful login
-        } else {
-            alert('Login failed: ' + data.message); // Display error message
-        }
-    })
-    .catch(error => {
-        console.error('Error during login:', error);
-        alert('An error occurred. Please try again.');
+    document.getElementById('login').addEventListener('click', function (e) {
+        e.preventDefault();
+    
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+    
+        fetch('http://localhost:8000/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ Email: email, Password: password }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Store the token in localStorage
+                console.log(data.token);
+                localStorage.setItem('token', data.token);
+                alert('Login successful!');
+    
+                // Decode the JWT and check the role
+                const decodedToken = decodeJWT(data.token); // Decode the token
+                if (decodedToken) {
+                    if (decodedToken.role === 'client') {
+                        window.location.href = '../../Client_dashboard/index.html'; // Redirect to YouTube for client
+                    } else if (decodedToken.role === 'admin') {
+                        window.location.href = 'index.html'; // Redirect to index page for admin
+                    }
+                }
+            } else {
+                alert('Login failed: ' + data.message); // Display error message
+            }
+        })
+        .catch(error => {
+            console.error('Error during login:', error);
+            alert('An error occurred. Please try again.');
+        });
     });
-});
+    
+    // Function to decode the JWT and extract the payload
+    function decodeJWT(token) {
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1])); // Decode the payload from the JWT token
+            console.log(payload); // Log the decoded payload
+            return payload; // Return the entire payload to access `role`, `id`, etc.
+        } catch (error) {
+            console.error('Error decoding JWT token:', error);
+            return null;
+        }
+    }
     </script>
     
-        
+    
+    <script>
+        document.getElementById('logout').addEventListener('click', function () {
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
+    
+    // Alert user about successful logout
+    alert('You have been logged out successfully!');
+    
+    // Redirect to login page
+    window.location.href = 'page-account-login.html'; // Redirect to login page after logout
+    });
+    </script>
     </body>
 </html>

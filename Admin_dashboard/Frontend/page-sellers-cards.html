@@ -15,6 +15,36 @@
         <!-- Template CSS -->
         <script src="assets/js/vendors/color-modes.js"></script>
         <link href="assets/css/main.css?v=6.0" rel="stylesheet" type="text/css" />
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const token = localStorage.getItem('token');
+        
+                if (!token) {
+                    alert('Access denied. Please log in.');
+                    window.location.href = 'page-account-login.html'; // Redirect to login page
+                    return;
+                }
+        
+                // Decode the JWT to verify the user's role
+                const decodedToken = decodeJWT(token);
+        
+                if (!decodedToken || decodedToken.role !== 'admin') {
+                    alert('Unauthorized access. Admins only.');
+                    window.location.href = 'page-account-login.html'; // Redirect to login page
+                }
+            });
+        
+            // Function to decode the JWT and extract the payload
+            function decodeJWT(token) {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1])); // Decode the payload from the JWT token
+                    return payload;
+                } catch (error) {
+                    console.error('Error decoding JWT token:', error);
+                    return null;
+                }
+            }
+        </script>
     </head>
 
     <body>
@@ -190,7 +220,7 @@
                                 <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
                                 <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                                <button id="logout" class="dropdown-item text-danger"><i class="material-icons md-exit_to_app"></i>Logout</button>
                             </div>
                         </li>
                     </ul>
@@ -244,7 +274,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- col.// -->
+
                             <div class="col">
                                 <div class="card card-user">
                                     <div class="card-header">
@@ -260,7 +290,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- col.// -->
+
                             <div class="col">
                                 <div class="card card-user">
                                     <div class="card-header">
@@ -276,7 +306,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- col.// -->
+
                             <div class="col">
                                 <div class="card card-user">
                                     <div class="card-header">
@@ -292,7 +322,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- col.// -->
+
                             <div class="col">
                                 <div class="card card-user">
                                     <div class="card-header">
@@ -308,7 +338,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- col.// -->
+
                             <div class="col">
                                 <div class="card card-user">
                                     <div class="card-header">
@@ -324,7 +354,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- col.// -->
+
                             <div class="col">
                                 <div class="card card-user">
                                     <div class="card-header">
@@ -340,7 +370,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- col.// -->
+
                             <div class="col">
                                 <div class="card card-user">
                                     <div class="card-header">
@@ -356,13 +386,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- col.// -->
+
                         </div>
-                        <!-- row.// -->
                     </div>
-                    <!-- card-body end// -->
                 </div>
-                <!-- card end// -->
                 <div class="pagination-area mt-15 mb-50">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">
@@ -400,5 +427,20 @@
         <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
         <!-- Main Script -->
         <script src="assets/js/main.js?v=6.0" type="text/javascript"></script>
+
+
+
+        <script>
+            document.getElementById('logout').addEventListener('click', function () {
+        // Remove the token from localStorage
+        localStorage.removeItem('token');
+        
+        // Alert user about successful logout
+        alert('You have been logged out successfully!');
+        
+        // Redirect to login page
+        window.location.href = 'page-account-login.html'; // Redirect to login page after logout
+        });
+        </script>
     </body>
 </html>

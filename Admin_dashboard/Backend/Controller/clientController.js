@@ -285,4 +285,40 @@ const getClientById = async (req, res) => {
 };
 
 
-module.exports = { addClient, getClient, deleteClient, uploadProfile, getLatestClients, getClientById };
+
+const getClientByCustomerId = async (req, res) => {
+    const customerId = req.params.customerId; // Retrieve the CustomerId from the request parameters
+
+    try {
+        // Check if the model already exists
+        const ClientModel = Client;
+
+        // Fetch the client by their CustomerId from the database
+        const client = await ClientModel.findOne({ CustomerId: customerId });  // Find the client by CustomerId
+
+        // If no client is found, return a 404 error
+        if (!client) {
+            return res.status(404).json({
+                success: false,
+                message: "Client not found"
+            });
+        }
+
+        // Send success response with the client data
+        res.status(200).json({
+            success: true,
+            message: "Client retrieved successfully",
+            client: client
+        });
+    } catch (error) {
+        console.error('Error fetching client by CustomerId:', error);
+        res.status(500).json({
+            success: false,
+            message: "Could not retrieve the client due to an internal error",
+            error: error.message
+        });
+    }
+};
+
+
+module.exports = { addClient, getClient, deleteClient, uploadProfile, getLatestClients, getClientById, getClientByCustomerId };

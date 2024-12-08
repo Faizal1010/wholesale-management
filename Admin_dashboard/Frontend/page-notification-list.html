@@ -306,271 +306,56 @@
       <section class="content-main">
         <div class="content-header">
           <div>
-            <h2 class="content-title card-title">Products grid</h2>
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-          <div>
-            <a href="#" class="btn btn-light rounded font-md">Export</a>
-            <a href="#" class="btn btn-light rounded font-md">Import</a>
-            <a href="#" class="btn btn-primary btn-sm rounded">Create new</a>
+            <h2 class="content-title card-title">Notifications</h2>
+            <p>All your sent notifications here.</p>
           </div>
         </div>
         <div class="card mb-4">
           <header class="card-header">
-            <div class="row gx-3">
-              <div class="col-lg-4 col-md-6 me-auto">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  class="form-control"
-                />
-              </div>
-              <div class="col-lg-2 col-6 col-md-3">
-                <select class="form-select">
-                  <option>All category</option>
-                  <option>Electronics</option>
-                  <option>Clothings</option>
-                  <option>Something else</option>
-                </select>
-              </div>
-              <div class="col-lg-2 col-6 col-md-3">
-                <select class="form-select">
-                  <option>Latest added</option>
-                  <option>Cheap first</option>
-                  <option>Most viewed</option>
-                </select>
-              </div>
+            <div class="col-md-4 col-6 d-flex">
+              <input id="TagInput" type="text" placeholder="Search by email" value="" class="form-control me-2" />
+              <button onclick="retrieveBYEmail()" class="btn btn-primary btn-sm rounded">Search</button>
             </div>
           </header>
           <!-- card-header end// -->
           <div class="card-body">
             <div id="grid-card" class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
-              <div class="col">
-                <div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="assets/imgs/items/1.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >Haagen-Dazs Caramel Cone Ice</a
-                    >
-                    <div class="price mb-2">$179.00</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
+                <div class="card-body">
+                    <div id="grid-card" class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+                        <div style="width: 100%; padding: 20px; background-color: #1a202c; border-radius: 10px;">
+                            <div style="overflow-x: auto; border-radius: 10px;">
+                                <table style="width: 100%; border-collapse: collapse; margin: 0 auto; background-color: #1a202c; color: #fff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); table-layout: auto;">
+                                    <thead>
+                                        <tr style="background-color: #2d3748;">
+                                            <th style="text-align: left; padding: 12px; border-bottom: 2px solid #4a5568;">CLIENT</th>
+                                            <th style="text-align: left; padding: 12px; border-bottom: 2px solid #4a5568; max-width: 100px;">Message</th>
+                                            <th style="text-align: right; padding: 12px; border-bottom: 2px solid #4a5568;">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="notification-table-body">
+                                        <tr>
+                                            <td style="padding: 12px; border-bottom: 1px solid #4a5568; display: flex; align-items: center;">
+                                                <img src="https://via.placeholder.com/40" alt="Profile" style="border-radius: 50%; margin-right: 10px;">
+                                                <div>
+                                                    <div>Client 2</div>
+                                                    <small style="color: #a0aec0;">ETF4ZT</small><br>
+                                                    <small style="color: #a0aec0;">client2@gmail.com</small>
+                                                </div>
+                                            </td>
+                                            <td style="padding: 12px; border-bottom: 1px solid #4a5568; text-align: left; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">The amount is due and the payment date has reached</td>
+                                            <td style="padding: 12px; border-bottom: 1px solid #4a5568; text-align: right; color: #a0aec0;">•••</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- card-product  end// -->
-              </div>
-              <!-- col.// -->
-              <div class="col">
-                <div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="assets/imgs/items/2.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >Seeds of Change Organic Quinoa</a
-                    >
-                    <div class="price mb-2">$179.00</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
-                </div>
-                <!-- card-product  end// -->
-              </div>
-              <!-- col.// -->
-              <div class="col">
-                <div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="assets/imgs/items/3.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >All Natural Italian-Style</a
-                    >
-                    <div class="price mb-2">$179.00</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
-                </div>
-                <!-- card-product  end// -->
-              </div>
-              <!-- col.// -->
-              <div class="col">
-                <div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="assets/imgs/items/4.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >Boomchick apop Sweet & Salty</a
-                    >
-                    <div class="price mb-2">$179.00</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
-                </div>
-                <!-- card-product  end// -->
-              </div>
-              <!-- col.// -->
-              <div class="col">
-                <div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="assets/imgs/items/5.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >Haagen-Dazs Caramel Cone Ice</a
-                    >
-                    <div class="price mb-2">$179.00</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
-                </div>
-                <!-- card-product  end// -->
-              </div>
-              <!-- col.// -->
-              <div class="col">
-                <div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="assets/imgs/items/6.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >Haagen-Dazs Caramel Cone Ice</a
-                    >
-                    <div class="price mb-2">$179.00</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
-                </div>
-                <!-- card-product  end// -->
-              </div>
-              <!-- col.// -->
-              <div class="col">
-                <div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="assets/imgs/items/7.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >Haagen-Dazs Caramel Cone Ice</a
-                    >
-                    <div class="price mb-2">$179.00</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
-                </div>
-                <!-- card-product  end// -->
-              </div>
-              <!-- col.// -->
-              <div class="col">
-                <div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="assets/imgs/items/8.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >Apple Airpods CB-133</a
-                    >
-                    <div class="price mb-2">$179.00</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
-                </div>
-                <!-- card-product  end// -->
-              </div>
-              <!-- col.// -->
-              <div class="col">
-                <div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="assets/imgs/items/9.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >Apple Airpods CB-133</a
-                    >
-                    <div class="price mb-2">$179.00</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
-                </div>
-                <!-- card-product  end// -->
-              </div>
-              <!-- col.// -->
-              <div class="col">
-                <div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="assets/imgs/items/10.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >Apple Airpods CB-133</a
-                    >
-                    <div class="price mb-2">$179.00</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
-                </div>
-                <!-- card-product  end// -->
-              </div>
-              <!-- col.// -->
+    
             </div>
-            <!-- row.// -->
+
           </div>
-          <!-- card-body end// -->
         </div>
-        <!-- card end// -->
         <div class="pagination-area mt-30 mb-50">
           <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-start">
@@ -606,6 +391,58 @@
           </div>
         </div>
       </footer>
+      <div
+      id="popup-overlay"
+      style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1000;"
+    ></div>
+    
+    <div
+      id="notification-modal"
+      style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); justify-content: center; align-items: center; z-index: 1001;"
+    >
+      <div
+        style="background: linear-gradient(135deg, #ffffff, #f8f9fa); padding: 30px; border-radius: 12px; width: 90%; max-width: 600px; max-height: 90%; overflow-y: auto; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);"
+      >
+        <div
+          style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 10px;"
+        >
+          <h2 style="margin: 0; font-size: 1.8em; color: #333; font-weight: bold;">Notification Details</h2>
+          <button
+            id="closeModalX"
+            style="font-size: 1.5em; cursor: pointer; background: none; border: none; color: #555;"
+          >
+            ×
+          </button>
+        </div>
+        <div style="margin-top: 20px; color: #444; font-size: 1em; line-height: 1.6;">
+          <div>
+            <strong style="color: #000;">Client Name:</strong>
+            <span id="client-name"></span>
+          </div>
+          <div>
+            <strong style="color: #000;">Client Code:</strong>
+            <span id="client-code"></span>
+          </div>
+          <div>
+            <strong style="color: #000;">Email:</strong>
+            <span id="email"></span>
+          </div>
+          <div>
+            <strong style="color: #000;">Notification Details:</strong>
+            <span id="notification-details"></span>
+          </div>
+        </div>
+        <div style="text-align: right; padding-top: 10px;">
+          <button
+            id="closeModalBtn"
+            style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+    
     </main>
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
@@ -616,60 +453,142 @@
     <script src="assets/js/main.js?v=6.0" type="text/javascript"></script>
 
 
+
+
+
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-  fetch('http://localhost:8000/products/getproducts')
-    .then(response => response.json())
-    .then(data => renderProducts(data))
-    .catch(error => console.error('Error fetching products:', error));
-});
-
-function renderProducts(products) {
-    console.log(products)
-  const cardBody = document.getElementById('grid-card');
-
-  cardBody.innerHTML = '';
-
-  products.forEach(product => {
-    const productArticle = document.createElement('div');
-    productArticle.classList.add('col');
-
-    productArticle.innerHTML = `<div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="./assets/ProductsImages/${product.ProductName}.jpg" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >${product.ProductName}</a
-                    >
-                    <div class="price mb-2">₹${product.Price}</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                  </div>
-                </div>`;
-
-    cardBody.appendChild(productArticle);
-  });
-}
-
+      document.addEventListener('DOMContentLoaded', () => {
+        function displayNotification(notifications) {
+          const notificationTableBody = document.getElementById('notification-table-body');
+          notificationTableBody.innerHTML = "";
+    
+          console.log(notifications);
+          notifications.forEach((notification) => {
+            // Fetch client data based on ClientId
+            fetch(`http://localhost:8000/clients/code-client/${notification.ClientId}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            })
+              .then(response => response.json())
+              .then(data => {
+                const image = `./assets/clientsProfiles/${notification.ClientEmail}/${data.client.Profile}`;
+    
+                // Create the row after we have the image
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                  <td style="padding: 12px; border-bottom: 1px solid #4a5568; display: flex; align-items: center;">
+                    <img style="border-radius: 50%; margin-right: 10px; width: 50px;" src="${image}" alt="Profile">
+                    <div>
+                      <div>${notification.ClientName}</div>
+                      <small style="color: #a0aec0;">${notification.ClientId}</small><br>
+                      <small style="color: #a0aec0;">${notification.ClientEmail}</small>
+                    </div>
+                  </td>
+                  <td style="padding: 12px; border-bottom: 1px solid #4a5568; text-align: left; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    ${notification.Notification}
+                  </td>
+                  <td style="padding: 12px; border-bottom: 1px solid #4a5568; text-align: right; color: #a0aec0;">
+                    <button class="show-details-btn" data-id="${notification._id}" style="background: none; border: none; color: #007bff; cursor: pointer;">Show</button>
+                  </td>
+                `;
+                notificationTableBody.appendChild(tr);
+              })
+              .catch(err => console.error("Error fetching client data:", err));
+          });
+        }
+    
+        fetch('http://localhost:8000/notification/fetch-notifications', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => response.json())
+          .then(data => displayNotification(data.data));
+    
+        // Function to open modal
+        function openModal(notificationId) {
+          const modal = document.getElementById('notification-modal');
+          const overlay = document.getElementById('popup-overlay');
+    
+          // Fetch the notification details to populate the modal
+          fetch(`http://localhost:8000/notification/by-id-notification/${notificationId}`)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data)
+              // Populate the modal with data
+              document.getElementById('client-name').innerText = data.data.ClientName;
+              document.getElementById('client-code').innerText = data.data.ClientId;
+              document.getElementById('notification-details').innerText = data.data.Notification;
+              document.getElementById('email').innerText = data.data.ClientEmail;
+              // document.getElementById('terms').innerText = data.data.Terms;
+            })
+            .catch(err => console.error("Error fetching notification details:", err));
+    
+          // Show modal and overlay
+          modal.style.display = 'flex';
+          overlay.style.display = 'block';
+        }
+    
+        // Function to close modal
+        function closeModal() {
+          const modal = document.getElementById('notification-modal');
+          const overlay = document.getElementById('popup-overlay');
+    
+          modal.style.display = 'none';
+          overlay.style.display = 'none';
+        }
+    
+        // Add event listener to show button
+        document.addEventListener('click', (event) => {
+          if (event.target && event.target.classList.contains('show-details-btn')) {
+            const notificationId = event.target.getAttribute('data-id');
+            console.log("Show button clicked. Notification ID:", notificationId); // Log the data-id
+            openModal(notificationId);
+          }
+        });
+    
+        // Close the modal when overlay is clicked (clicking outside the modal)
+        document.getElementById('popup-overlay').addEventListener('click', closeModal);
+    
+        // Close the modal when the "X" button is clicked
+        const closeModalButton = document.getElementById('closeModalX');
+        if (closeModalButton) {
+          closeModalButton.addEventListener('click', closeModal);
+        }
+    
+        // Close the modal when the "Close" button is clicked
+        const closeButton = document.getElementById('closeModalBtn');
+        if (closeButton) {
+          closeButton.addEventListener('click', closeModal);
+        }
+      });
     </script>
+    
 
-<script>
-  document.getElementById('logout').addEventListener('click', function () {
-// Remove the token from localStorage
-localStorage.removeItem('token');
 
-// Alert user about successful logout
-alert('You have been logged out successfully!');
 
-// Redirect to login page
-window.location.href = 'page-account-login.html'; // Redirect to login page after logout
-});
-</script>
-  </body>
+
+
+
+
+
+
+
+    <script>
+      document.getElementById('logout').addEventListener('click', function () {
+  // Remove the token from localStorage
+  localStorage.removeItem('token');
+  
+  // Alert user about successful logout
+  alert('You have been logged out successfully!');
+  
+  // Redirect to login page
+  window.location.href = 'page-account-login.html'; // Redirect to login page after logout
+  });
+  </script>
+      </body>
 </html>

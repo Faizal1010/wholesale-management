@@ -19,6 +19,36 @@
     <!-- Template CSS -->
     <script src="assets/js/vendors/color-modes.js"></script>
     <link href="assets/css/main.css?v=6.0" rel="stylesheet" type="text/css" />
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          const token = localStorage.getItem('token');
+  
+          if (!token) {
+              alert('Access denied. Please log in.');
+              window.location.href = 'page-account-login.html'; // Redirect to login page
+              return;
+          }
+  
+          // Decode the JWT to verify the user's role
+          const decodedToken = decodeJWT(token);
+  
+          if (!decodedToken || decodedToken.role !== 'admin') {
+              alert('Unauthorized access. Admins only.');
+              window.location.href = 'page-account-login.html'; // Redirect to login page
+          }
+      });
+  
+      // Function to decode the JWT and extract the payload
+      function decodeJWT(token) {
+          try {
+              const payload = JSON.parse(atob(token.split('.')[1])); // Decode the payload from the JWT token
+              return payload;
+          } catch (error) {
+              console.error('Error decoding JWT token:', error);
+              return null;
+          }
+      }
+  </script>
   </head>
 
   <body>
@@ -108,7 +138,7 @@
                   </div>
               </li>
               <li class="menu-item">
-                  <a class="menu-link" href="page-reviews.html">
+                  <a class="menu-link" href="page-notification-list.html">
                       <i class="icon material-icons md-comment"></i>
                       <span class="text">Notifications</span>
                   </a>
@@ -266,9 +296,7 @@
                   ><i class="material-icons md-help_outline"></i>Help center</a
                 >
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="#"
-                  ><i class="material-icons md-exit_to_app"></i>Logout</a
-                >
+                <button id="logout" class="dropdown-item text-danger"><i class="material-icons md-exit_to_app"></i>Logout</button>
               </div>
             </li>
           </ul>
@@ -559,6 +587,48 @@
           </div>
         </div>
       </footer>
+
+
+
+
+
+
+
+
+
+
+
+<div id="overlay" style="background-color: rgba(0, 0, 0, 0.7); width: 100vw; height: 100vh; display: none; position: fixed; z-index: 999; top: 0; left: 0;">
+        <div id="popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #1c1e26; color: #fff; padding: 20px; border-radius: 8px; max-width: 500px; z-index: 1000; width: 70%;">
+        <form>
+          <div style="margin-bottom: 15px;">
+            <label for="clientName" style="display: block; font-weight: bold;">Client Name: <span style="color: red;">*</span></label>
+            <input type="text" id="clientName" name="clientName" placeholder="Enter client name" required style="width: 100%; padding: 10px; border: none; border-radius: 4px; box-sizing: border-box; background-color: #b8b3b3;">
+          </div>
+          <div style="margin-bottom: 15px;">
+            <label for="clientCode" style="display: block; font-weight: bold;">Client Code: <span style="color: red;">*</span></label>
+            <input type="text" id="clientCode" name="clientCode" placeholder="Enter client code" required style="width: 100%; padding: 10px; border: none; border-radius: 4px; box-sizing: border-box; background-color: #b8b3b3;">
+          </div>
+          <div style="margin-bottom: 15px;">
+            <label for="clientEmail" style="display: block; font-weight: bold;">Client Email: <span style="color: red;">*</span></label>
+            <input type="email" id="clientEmail" name="clientEmail" placeholder="Enter client email" required style="width: 100%; padding: 10px; border: none; border-radius: 4px; box-sizing: border-box; background-color: #b8b3b3;">
+          </div>
+          <div style="margin-bottom: 15px;">
+            <label for="message" style="display: block; font-weight: bold;">Message:</label>
+            <textarea id="message" name="message" placeholder="Enter your message" rows="4" style="width: 100%; padding: 10px; border: none; border-radius: 4px; box-sizing: border-box;"></textarea>
+          </div>
+          <div>
+            <button type="submit" style="background-color: #3b8beb; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+            <button type="button" id="closePopup" style="background-color: #e74c3c; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+
+      
     </main>
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
@@ -569,86 +639,198 @@
     <script src="assets/js/main.js?v=6.0" type="text/javascript"></script>
 
 
+
     <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Select the second form using a more specific query
+        const forms = document.querySelectorAll('form');
+        const secondForm = forms[1]; // Select the second form (index 1)
       
-      async function deleteClient(event) {
-    event.preventDefault(); // Prevent the default anchor link behavior
-
-    const clientId = event.target.closest('a').getAttribute('data-id');
-    
-    if (clientId) {
-        try {
-            const response = await fetch(`http://localhost:8000/clients/delete-client/${clientId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (response.ok) {
-                // If successful, remove the product from the DOM
-                const clientElement = event.target.closest('.card-product-grid');
-                clientElement.remove();
-                alert('Client deleted successfully!');
+        secondForm.addEventListener('submit', (event) => {
+      
+          const notificationData = {
+            ClientName: secondForm.querySelector('#clientName').value,
+            ClientId: secondForm.querySelector('#clientCode').value,
+            ClientEmail: secondForm.querySelector('#clientEmail').value,
+            Notification: secondForm.querySelector('#message').value,
+          }
+      
+          fetch('http://localhost:8000/notification/send-notification', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(notificationData)
+          })
+          .then(response => response.json())  // Convert the response to JSON
+          .then(data => {
+            if (data.error) {
+              // Handle error response
+              alert('Error: ' + data.error);
             } else {
-                alert('Error deleting client!');
+              // Handle success response
+              alert('Notification sent successfully!');
+              console.log('Saved notification data:', data);
             }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while deleting the client.');
-        }
-    }
-  }
-
-
-
-
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-  fetch('http://localhost:8000/clients/get-client')
-    .then(response => response.json())
-    .then(data => renderProducts(data.clients))
-    .catch(error => console.error('Error fetching products:', error));
-});
-
-function renderProducts(clients) {
-    console.log(clients)
-  const cardBody = document.getElementById('grid-card');
-
-  cardBody.innerHTML = '';
-  if (!Array.isArray(clients) || clients.length < 1) {
-        cardBody.innerHTML = "<h3>No Clients</h3>";
-        return;
-    }
-  clients.forEach(client => {
-    const productArticle = document.createElement('div');
-    productArticle.classList.add('col');
-    productArticle.innerHTML = `<div class="card card-product-grid">
-                  <a href="#" class="img-wrap">
-                    <img src="./assets/clientsProfiles/${client.Email}/${client.Profile}" alt="Product" />
-                  </a>
-                  <div class="info-wrap">
-                    <a href="#" class="title text-truncate"
-                      >${client.FirstName} ${client.LastName}</a
-                    >
-                    <div class="price mb-2">${client.CustomerId}</div>
-                    <!-- price.// -->
-                    <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Edit
-                    </a>
-                    <a data-id="${client._id}" onclick="deleteClient(event)" href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
-                    <a  style="margin-top:3px;" href="#" class="btn btn-sm font-sm btn-light rounded">
-                      <i class="material-icons md-comment"></i> Notify </a>
-                  </div>
-                </div>`;
-
-    cardBody.appendChild(productArticle);
-  });
-}
-
+          })
+          .catch(error => {
+            // Handle network or other errors
+            console.error('Error sending notification:', error);
+            alert('Failed to send notification. Please try again later.');
+          });
+        });
+      });
     </script>
+    
+    
+
+
+    <script>
+      // Function to delete a client
+      async function deleteClient(event) {
+        event.preventDefault(); // Prevent the default anchor link behavior
+    
+        const clientId = event.target.closest('a').getAttribute('data-id');
+        
+        if (clientId) {
+            try {
+                const response = await fetch(`http://localhost:8000/clients/delete-client/${clientId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+    
+                if (response.ok) {
+                    // If successful, remove the client from the DOM
+                    const clientElement = event.target.closest('.card-product-grid');
+                    clientElement.remove();
+                    alert('Client deleted successfully!');
+                } else {
+                    alert('Error deleting client!');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the client.');
+            }
+        }
+      }
+    
+      // Function to open the popup
+      function openPopup(event) {
+        event.preventDefault(); // Prevent default link behavior
+        const popup = document.getElementById('popup');
+        const overlay = document.getElementById('overlay');
+        popup.style.display = 'block'; // Show the popup
+        overlay.style.display = 'block'; // Show the overlay
+    
+        // Log the data-id attribute of the clicked "Notify" button
+        const notifyButton = event.target.closest('a');
+        if (notifyButton && notifyButton.hasAttribute('data-id')) {
+          const clientId = notifyButton.getAttribute('data-id');
+          fetch(`http://localhost:8000/clients/by-id-client/${clientId}`,{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then(response=>response.json())
+          .then(data=>{
+            console.log(data.client)
+
+            const clientName = document.getElementById('clientName')
+            clientName.value = data.client.FirstName + " " + data.client.LastName
+            clientName.setAttribute('readonly', 'readonly')
+
+            
+            const clientCode = document.getElementById('clientCode')
+            clientCode.value = data.client.CustomerId
+            clientCode.setAttribute('readonly', 'readonly')
+
+
+            const clientEmail = document.getElementById('clientEmail')
+            clientEmail.value = data.client.Email
+            clientEmail.setAttribute('readonly', 'readonly')
+          })
+        }
+
+      }
+    
+      // Function to close the popup
+      function closePopup() {
+        const popup = document.getElementById('popup');
+        const overlay = document.getElementById('overlay');
+        popup.style.display = 'none'; // Hide the popup
+        overlay.style.display = 'none'; // Hide the overlay
+      }
+    
+      // Event listener for the "Notify" buttons
+      document.addEventListener('DOMContentLoaded', () => {
+        // Fetch client data and render products
+        fetch('http://localhost:8000/clients/get-client')
+          .then(response => response.json())
+          .then(data => renderProducts(data.clients))
+          .catch(error => console.error('Error fetching products:', error));
+    
+        // Event listener for opening the popup when "Notify" is clicked
+        document.getElementById('grid-card').addEventListener('click', (event) => {
+          if (event.target.closest('.btn-light') && event.target.innerText.includes('Notify')) {
+            openPopup(event);
+          }
+        });
+    
+        // Event listener for closing the popup
+        document.getElementById('closePopup').addEventListener('click', closePopup);
+      });
+    
+      // Function to render products (clients) in the grid
+      function renderProducts(clients) {
+        console.log(clients)
+        const cardBody = document.getElementById('grid-card');
+    
+        cardBody.innerHTML = '';
+        if (!Array.isArray(clients) || clients.length < 1) {
+            cardBody.innerHTML = "<h3>No Clients</h3>";
+            return;
+        }
+        clients.forEach(client => {
+          const productArticle = document.createElement('div');
+          productArticle.classList.add('col');
+          productArticle.innerHTML = `<div class="card card-product-grid">
+                        <a href="#" class="img-wrap" style="height: 200px;">
+                          <img style="object-fit: cover;" src="./assets/clientsProfiles/${client.Email}/${client.Profile}" alt="Product" />
+                        </a>
+                        <div class="info-wrap">
+                          <a href="#" class="title text-truncate"
+                            >${client.FirstName} ${client.LastName}</a
+                          >
+                          <div class="price mb-2">${client.CustomerId}</div>
+                          <!-- price.// -->
+                          <a href="#" class="btn btn-sm font-sm rounded btn-brand">
+                            <i class="material-icons md-edit"></i> Edit
+                          </a>
+                          <a data-id="${client._id}" onclick="deleteClient(event)" href="#" class="btn btn-sm font-sm btn-light rounded">
+                            <i class="material-icons md-delete_forever"></i> Delete
+                          </a>
+                          <a data-id="${client._id}"  style="margin-top:3px;" href="#" class="btn btn-sm font-sm btn-light rounded">
+                            <i class="material-icons md-comment"></i> Notify </a>
+                        </div>
+                      </div>`;
+    
+          cardBody.appendChild(productArticle);
+        });
+      }
+    </script>
+    <script>
+      document.getElementById('logout').addEventListener('click', function () {
+  // Remove the token from localStorage
+  localStorage.removeItem('token');
+  
+  // Alert user about successful logout
+  alert('You have been logged out successfully!');
+  
+  // Redirect to login page
+  window.location.href = 'page-account-login.html'; // Redirect to login page after logout
+  });
+  </script>
   </body>
 </html>
