@@ -12,6 +12,14 @@ const QuotationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  Email: {
+    type: String,
+    required: true
+  },
+  Profile: {
+    type: String,
+    required: true
+  },
   dueDate: {
     type: Date,
     default: null
@@ -41,6 +49,10 @@ const QuotationSchema = new mongoose.Schema({
   },
   attended:{
     type: Boolean,
+    required: true
+  },
+  responseFile:{
+    type: String,
     required: true
   }
 }, { timestamps: true });

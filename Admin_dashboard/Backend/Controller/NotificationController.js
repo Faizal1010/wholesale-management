@@ -89,4 +89,32 @@ const sendNotification = async (req, res) => {
     }
   };
 
-module.exports = { sendNotification, fetchNotifications, fetchById };
+
+  const fetchByClientId = async (req, res) => {
+    console.log('Fetching notifications by ClientId');
+  
+    // Extract ClientId from the request parameters
+    const { id: clientId } = req.params;
+
+    try {
+        // Fetch notifications by ClientId from the database
+        const notifications = await Notification.find({ ClientId: clientId });
+
+        // If no notifications are found, return a 404 response
+        if (!notifications || notifications.length === 0) {
+            return res.status(404).json({ message: 'No notifications found for the specified ClientId.' });
+        }
+
+        // Send the fetched notifications as a response
+        res.status(200).json({
+            message: 'Notifications retrieved successfully.',
+            data: notifications,
+        });
+    } catch (error) {
+        console.error('Error fetching notifications by ClientId:', error);
+        res.status(500).json({ error: 'Failed to fetch notifications.' });
+    }
+};
+
+
+module.exports = { sendNotification, fetchNotifications, fetchById, fetchByClientId };

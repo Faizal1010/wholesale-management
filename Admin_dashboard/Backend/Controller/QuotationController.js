@@ -13,6 +13,8 @@ const quoteSubmissionByClient = async (req, res) => {
       notes,
       terms,
       products,
+      Profile,
+      Email
     } = req.body;
 
     // Validate required fields
@@ -29,8 +31,11 @@ const quoteSubmissionByClient = async (req, res) => {
       dueDate,
       notes,
       terms,
-      products, // Use products array as-is
-      attended: false
+      products,
+      Profile,
+      Email, // Use products array as-is
+      attended: false,
+      responseFile: 'N/A'
     }); 
       // Save the quotation to the database
     const savedQuotation = await newQuotation.save();
@@ -93,6 +98,23 @@ const getById = async (req, res) => {
   }
 };
 
-  
+const getAllClients = async (req, res) => {
+  try {
+    // Fetch all quotations from the database
+    const quotations = await Quotation.find();
 
-module.exports = { quoteSubmissionByClient, getQuotes, getById };
+    // Check if quotations exist
+    if (quotations.length === 0) {
+      return res.status(404).json({ message: 'No quotations found.' });
+    }
+
+    // Respond with the retrieved quotations
+    res.status(200).json({ message: 'Quotations retrieved successfully.', data: quotations });
+  } catch (error) {
+    console.error('Error fetching quotations:', error);
+    res.status(500).json({ error: 'Failed to fetch quotations.' });
+  }
+};
+
+
+module.exports = { quoteSubmissionByClient, getQuotes, getById, getAllClients };

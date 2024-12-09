@@ -240,36 +240,29 @@
                                 <input type="text" placeholder="Search..." class="form-control" />
                             </div>
                             <div class="col-lg-2 col-6 col-md-3">
-                                <select class="form-select">
-                                    <option>Show 20</option>
-                                    <option>Show 30</option>
-                                    <option>Show 40</option>
-                                    <option>Show all</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-2 col-6 col-md-3">
-                                <select class="form-select">
-                                    <option>Status: all</option>
-                                    <option>Active only</option>
-                                    <option>Disabled</option>
+                                <select id="quote-select" class="form-select">
+                                    <option selected>All</option>
+                                    <option>Attended</option>
+                                    <option>Non Attended</option>
                                 </select>
                             </div>
                         </div>
                     </header>
                     <!-- card-header end// -->
                     <div class="card-body">
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
+                        <div id="quotation" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
                             <div class="col">
                                 <div class="card card-user">
                                     <div class="card-header">
                                         <img class="img-md img-avatar" src="assets/imgs/people/avatar-1.png" alt="User pic" />
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title mt-50">Mary Sandra</h5>
+                                        <h5 class="card-title mt-50">client</h5>
                                         <div class="card-text text-muted">
-                                            <p class="m-0">Seller ID: #409</p>
-                                            <p>mary90@example.com</p>
+                                            <p class="m-0">clientCode</p>
+                                            <p>Email</p>
                                             <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">Respond</a>
                                         </div>
                                     </div>
                                 </div>
@@ -419,6 +412,49 @@
                     </div>
                 </div>
             </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div id="quotationModalClients" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); justify-content: center; align-items: center; z-index: 1000;">
+                <div style="background-color: #fff; padding: 20px; border-radius: 8px; width: 90%; max-width: 600px; max-height: 90%; overflow-y: auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                        <h2 style="margin: 0; font-size: 1.5em; color: black;">Quotation Details</h2>
+                        <button id="closeModalx" style="font-size: 1.5em; cursor: pointer; background: none; border: none;">×</button>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div><strong>Client Name:</strong><span id="client-name"> Bucky Barnes </span></div>
+                        <div><strong>Client Code:</strong><span id="client-code"> CBL93D </span></div>
+                        <div><strong>Quotation Code:</strong><span id="quotation-code"> QGV46M </span></div>
+                        <div><strong>Quote Date:</strong><span id="quote-date"> 2024-12-06 </span></div>
+                        <div><strong>Due Date:</strong><span id="due-date"> Not specified </span></div>
+                        <div><strong>Notes:</strong><span id="notes"> Noti </span></div>
+                        <div><strong>Terms:</strong><span id="terms"> Termi </span></div>
+                    </div>
+                    <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px;">
+                        <h3 style="color: black;">Products:</h3>
+                        <div id="quote-product">
+                            <div style="margin-bottom: 15px;">
+                                <strong>Product 1: Laptop</strong>
+                                <div><strong>Details:</strong> i1000</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: right; padding-top: 10px;">
+                        <button id="closeModalbutton" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Close</button>
+                    </div>
+                </div>
+            </div>
         </main>
         <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
         <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
@@ -428,6 +464,197 @@
         <!-- Main Script -->
         <script src="assets/js/main.js?v=6.0" type="text/javascript"></script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const quoteSelect = document.getElementById("quote-select");
+                const quotesContainer = document.getElementById("quotation");
+                const detailsModal = document.getElementById("quotationModalClients");
+                const respondModal = document.createElement("div");
+        
+                // Initialize Respond Modal
+                respondModal.id = "respondModal";
+                respondModal.style = `
+                    display: none; position: fixed; top: 0; left: 0; width: 100%; 
+                    height: 100%; background-color: rgba(0, 0, 0, 0.7); 
+                    justify-content: center; align-items: center; z-index: 1000;
+                `;
+                respondModal.innerHTML = `
+                    <div style="background-color: #fff; padding: 20px; border-radius: 8px; width: 90%; max-width: 400px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); text-align: center;">
+                        <h2 style="margin: 0; font-size: 1.5em; color: black">Respond</h2>
+                        <p style="margin: 20px 0;">This is the respond modal. Content will be added later.</p>
+                        <button id="closeRespondModal" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                            Close
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(respondModal);
+        
+                // Function to fetch quotations
+                async function fetchQuotations() {
+                    try {
+                        const response = await fetch("http://localhost:8000/quotes/all-clients");
+                        const result = await response.json();
+                        if (response.ok) {
+                            return result.data;
+                        } else {
+                            console.error(result.error || "Failed to fetch quotations.");
+                            return [];
+                        }
+                    } catch (error) {
+                        console.error("Error fetching quotations:", error);
+                        return [];
+                    }
+                }
+        
+                // Function to render quotations
+                function renderQuotations(quotations, filter) {
+                    quotesContainer.innerHTML = "";
+                    const filteredQuotations = quotations
+                        .filter(quote => {
+                            if (filter === "Attended") return quote.attended;
+                            if (filter === "Non Attended") return !quote.attended;
+                            return true;
+                        })
+                        .sort((a, b) => new Date(a.dueDate || "2100-01-01") - new Date(b.dueDate || "2100-01-01"));
+        
+                    filteredQuotations.forEach(quote => {
+                        const card = document.createElement("div");
+                        card.className = "col";
+        
+                        card.innerHTML = `
+                            <div class="card card-user">
+                                <div class="card-header">
+                                    <img class="img-md img-avatar" src="assets/imgs/people/avatar-1.png" alt="User pic" />
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title mt-50">${quote.client}</h5>
+                                    <div class="card-text text-muted">
+                                        <p class="m-0">${quote.clientCode}</p>
+                                        <p>${quote.Email}</p>
+                                        <a class="btn btn-sm btn-brand rounded font-sm mt-15 view-details" data-id="${quote._id}">View details</a>
+                                        <a class="btn btn-sm btn-brand rounded font-sm mt-15 respond-button" data-id="${quote._id}">Respond</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+        
+                        quotesContainer.appendChild(card);
+                    });
+                }
+        
+                // Function to handle details popup
+                function handleDetailsPopup(quoteId) {
+    fetch(`http://localhost:8000/quotes/fetch-by-quoteId/${quoteId}`)
+        .then(response => response.json())
+        .then(result => {
+            if (result.data) {
+                const quote = result.data;
+                console.log(quote)
+                // Set the quote details
+                document.getElementById("client-name").innerText = " " + quote.client;
+                document.getElementById("client-code").innerText = " " + quote.clientCode;
+                document.getElementById("quotation-code").innerText = " " + quote.quoteCode || " N/A";
+                document.getElementById("quote-date").innerText = " " + quote.createdAt.split('T')[0] || " N/A";
+                document.getElementById("due-date").innerText = " " + quote.dueDate.split('T')[0] || " N/A";
+                document.getElementById("notes").innerText = " " + quote.notes || " N/A";
+                document.getElementById("terms").innerText = " " + quote.terms || " N/A";
+
+                // Clear any existing products
+                const productsContainer = document.getElementById("quote-product");
+                productsContainer.innerHTML = ""; // Clear previous products
+
+                // Dynamically add products if they exist
+                if (quote.products && quote.products.length > 0) {
+                    quote.products.forEach((product, index) => {
+                        const productDiv = document.createElement("div");
+                        productDiv.style.marginBottom = "15px";
+
+                        productDiv.innerHTML = `
+                            <strong>Product ${index + 1}: ${product.ProductTitle}</strong>
+                            <div><strong>Details:</strong> ${product.properties}</div>
+                        `;
+
+                        productsContainer.appendChild(productDiv);
+                    });
+                } else {
+                    const noProductsMessage = document.createElement("div");
+                    noProductsMessage.innerText = "No products available for this quotation.";
+                    productsContainer.appendChild(noProductsMessage);
+                }
+
+                // Show the details modal
+                detailsModal.style.display = "flex";
+            } else {
+                console.error(result.error || "Failed to fetch quotation details.");
+            }
+        })
+        .catch(error => console.error("Error fetching quotation details:", error));
+}
+
+        
+                // Function to open the respond modal
+                function openRespondModal(quoteId) {
+                    respondModal.style.display = "flex";
+                }
+        
+                // Function to close the details modal
+                function closeModal() {
+                    detailsModal.style.display = "none";
+                }
+        
+                // Function to close the respond modal
+                function closeRespondModal() {
+                    respondModal.style.display = "none";
+                }
+        
+                // Attach event listeners for close buttons
+                document.getElementById("closeModalx").addEventListener("click", closeModal);
+                document.getElementById("closeModalbutton").addEventListener("click", closeModal);
+                document.getElementById("closeRespondModal").addEventListener("click", closeRespondModal);
+        
+                // Event listener for the select input
+                quoteSelect.addEventListener("change", async function () {
+                    const filter = quoteSelect.value;
+                    const quotations = await fetchQuotations();
+                    renderQuotations(quotations, filter);
+                });
+        
+                // Event listener for the "View Details" and "Respond" buttons
+                quotesContainer.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    if (event.target.classList.contains("view-details")) {
+                        const quoteId = event.target.getAttribute("data-id");
+                        console.log(quoteId)
+                        handleDetailsPopup(quoteId);
+                    } else if (event.target.classList.contains("respond-button")) {
+                        const quoteId = event.target.getAttribute("data-id");
+                        openRespondModal(quoteId);
+                        console.log(quoteId)
+                    }
+                });
+        
+                // Initial fetch and render
+                (async function () {
+                    const quotations = await fetchQuotations();
+                    renderQuotations(quotations, "All");
+                })();
+            });
+        </script>
+        
+            
+            
 
 
         <script>

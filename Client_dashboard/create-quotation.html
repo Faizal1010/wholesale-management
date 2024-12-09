@@ -264,7 +264,9 @@
         <script src="assets/js/main.js?v=6.0" type="text/javascript"></script>
 
 <!-- dynamically filling the clients detaild -->
-<script>// Function to get JWT token from localStorage
+<script>
+    let Email
+    let Profile
     function getJWTToken() {
         return localStorage.getItem('token'); // Retrieve JWT from localStorage
     }
@@ -304,7 +306,8 @@
                 document.getElementById('client').value = data.client.FirstName + " " + data.client.LastName; // Adjust based on actual property name 
                 document.getElementById('client').setAttribute('readonly', 'readonly');
 
-
+                Email = data.client.Email
+                Profile = data.client.Profile
 
                 const getRandomLetter = () => {
                     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -346,7 +349,7 @@
         if (!jwt) {
             console.error('JWT token not found in localStorage');
             alert('You must be logged in to access this page.');
-            window.location.href = 'page-account-login.html'; // Redirect to login if no token
+            window.location.href = '../Admin_dashboard/Frontend/page-account-login.html'; // Redirect to login if no token
             return;
         }
     
@@ -355,7 +358,7 @@
         if (!clientId) {
             console.error('Client ID not found in the token');
             alert('Error with the JWT token. Please log in again.');
-            window.location.href = 'page-account-login.html'; // Redirect to login if clientId is missing
+            window.location.href = '../Admin_dashboard/Frontend/page-account-login.html'; // Redirect to login if clientId is missing
             return;
         }
     
@@ -497,6 +500,8 @@
         client,
         quoteCode,
         clientCode,
+        Email,
+        Profile,
         // quoteDate,
         dueDate,
         notes,

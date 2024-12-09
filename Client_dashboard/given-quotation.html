@@ -280,6 +280,7 @@
                     <th style="padding: 10px 15px; text-align: left; font-weight: bold;">Quote Date</th>
                     <th style="padding: 10px 15px; text-align: left; font-weight: bold;">Due Date</th>
                     <th style="padding: 10px 15px; text-align: left; font-weight: bold;">Details</th>
+                    <th style="padding: 10px 15px; text-align: left; font-weight: bold;">Response</th>
                   </tr>
                 </thead>
                 <tbody id="quoteTableBody">
@@ -444,6 +445,12 @@
                 <button class="details-button" data-id="${quote._id}" 
                   style="display: inline-block; padding: 5px 10px; background-color: #58d68d; color: #ffffff; font-size: 14px; border-radius: 12px; border: none;">
                   Details
+                </button>
+              </td>
+              <td style="padding: 10px 15px; text-align: left;">
+                <button data-id="${quote._id}" 
+                  style="display: inline-block; padding: 5px 10px; background-color: #58d68d; color: #ffffff; font-size: 14px; border-radius: 12px; border: none;">
+                  ${quote.attended? 'Show':'No Response'}
                 </button>
               </td>`;
             quoteTableBody.appendChild(tr);

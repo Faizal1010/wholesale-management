@@ -96,7 +96,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link" href="page-transactions-2.html">
+                        <a class="menu-link" href="client-notification-list.html">
                             <i class="icon material-icons md-comment"></i>
                             <span class="text">Notifications</span>
                         </a>
@@ -233,39 +233,16 @@
                         <div class="row">
                             <div class="col-lg-5">
                                 <div class="card mb-4">
-                                    <article class="card-body">
-                                        <h5 class="card-title">New Members</h5>
-                                        <div class="new-member-list">
-                                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                                <div class="d-flex align-items-center">
-                                                    <img src="assets/imgs/people/avatar-4.png" alt="" class="avatar" />
-                                                    <div>
-                                                        <h6>Patric Adams</h6>
-                                                        <p class="text-muted font-xs">Sanfrancisco</p>
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                                <div class="d-flex align-items-center">
-                                                    <img src="assets/imgs/people/avatar-2.png" alt="" class="avatar" />
-                                                    <div>
-                                                        <h6>Dilan Specter</h6>
-                                                        <p class="text-muted font-xs">Sanfrancisco</p>
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                                <div class="d-flex align-items-center">
-                                                    <img src="assets/imgs/people/avatar-3.png" alt="" class="avatar" />
-                                                    <div>
-                                                        <h6>Tomas Baker</h6>
-                                                        <p class="text-muted font-xs">Sanfrancisco</p>
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                            </div>
+                                    <article class="card-body" id="notification-box" style="height: 300px;">
+                                        <h5 class="card-title">Notifications</h5>
+                                        <div class="new-member-list" style="max-height: 250px; height: 250px; overflow-y: auto; padding-right: 10px;">
+                                            <div style="background-color: #222736; border-radius: 7px; padding: 5px; margin-bottom: 5px;">1. Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti fuga porro nemo impedit magni rerum rem cupiditate reiciendis ad beatae.</div>
+                                            <div style="border-radius: 7px; padding: 5px; margin-bottom: 5px;">2. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia repudiandae ea maiores nisi illo voluptatibus impedit libero dolor ducimus fugit.</div>
+                                            <div style="background-color: #222736; border-radius: 7px; padding: 5px; margin-bottom: 5px;">1. Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti fuga porro nemo impedit magni rerum rem cupiditate reiciendis ad beatae.</div>
+                                            <div style="border-radius: 7px; padding: 5px; margin-bottom: 5px;">2. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia repudiandae ea maiores nisi illo voluptatibus impedit libero dolor ducimus fugit.</div>
+                                            <div style="background-color: #222736; border-radius: 7px; padding: 5px; margin-bottom: 5px;">1. Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti fuga porro nemo impedit magni rerum rem cupiditate reiciendis ad beatae.</div>
+                                            <div style="border-radius: 7px; padding: 5px; margin-bottom: 5px;">1. Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti fuga porro nemo impedit magni rerum rem cupiditate reiciendis ad beatae.</div>
+
                                         </div>
                                     </article>
                                 </div>
@@ -600,6 +577,63 @@
         <script src="assets/js/main.js?v=6.0" type="text/javascript"></script>
         <script src="assets/js/custom-chart.js" type="text/javascript"></script>
 
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                let payload;
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    console.warn('No token found for logging.');
+                    return;
+                }
+                try {
+                    payload = JSON.parse(atob(token.split('.')[1])); // Decode the payload
+                    console.log('Decoded JWT Payload:', payload);
+                } catch (error) {
+                    console.error('Error decoding JWT token:', error);
+                }
+        
+                fetch(`http://localhost:8000/notification/by-client-id/${payload.clientId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const notificationBox = document.getElementById('notification-box');
+                    notificationBox.innerHTML = "";
+        
+                    // Sort notifications by createdAt in descending order (newest first)
+                    const sortedNotifications = data.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+                    // Get the newest 5 notifications
+                    const latestNotifications = sortedNotifications.slice(0, 5);
+        
+                    // Display the latest notifications
+                    latestNotifications.forEach((notification, index) => {
+                        const div = document.createElement('div');
+                        if ((index + 1) % 2 !== 0) {
+                            div.style.backgroundColor = '#222736';
+                            div.style.borderRadius = '7px';
+                            div.style.padding = '10px';
+                            div.style.marginBottom = '5px';
+                        } else {
+                            div.style.borderRadius = '7px';
+                            div.style.padding = '10px';
+                            div.style.marginBottom = '5px';
+                        }
+                        div.innerText = `${index + 1}. ${notification.Notification}`;
+                        notificationBox.appendChild(div);
+                    });
+                });
+                
+            });
+        </script>
+        
+        
+
+
+        <!-- Logout -->
         <script>
             document.getElementById('logout').addEventListener('click', function () {
         // Remove the token from localStorage
