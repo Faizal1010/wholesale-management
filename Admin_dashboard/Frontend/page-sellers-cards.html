@@ -493,8 +493,15 @@
                 respondModal.innerHTML = `
                     <div style="background-color: #fff; padding: 20px; border-radius: 8px; width: 90%; max-width: 400px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); text-align: center;">
                         <h2 style="margin: 0; font-size: 1.5em; color: black">Respond</h2>
-                        <p style="margin: 20px 0;">This is the respond modal. Content will be added later.</p>
-                        <button id="closeRespondModal" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                        <p style="margin: 20px 0;">Fill in the details below to respond.</p>
+                        <form id="respondForm">
+                            <textarea id="noteField" placeholder="Enter note" style="width: 100%; height: 80px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; padding: 8px;"></textarea>
+                            <input type="file" id="fileField" style="width: 100%; margin-bottom: 10px;"/>
+                            <button type="button" id="saveRespondButton" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                                Save
+                            </button>
+                        </form>
+                        <button id="closeRespondModal" style="background-color: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
                             Close
                         </button>
                     </div>
@@ -534,21 +541,22 @@
                         card.className = "col";
         
                         card.innerHTML = `
-                            <div class="card card-user">
-                                <div class="card-header">
-                                    <img class="img-md img-avatar" src="assets/imgs/people/avatar-1.png" alt="User pic" />
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title mt-50">${quote.client}</h5>
-                                    <div class="card-text text-muted">
-                                        <p class="m-0">${quote.clientCode}</p>
-                                        <p>${quote.Email}</p>
-                                        <a class="btn btn-sm btn-brand rounded font-sm mt-15 view-details" data-id="${quote._id}">View details</a>
-                                        <a class="btn btn-sm btn-brand rounded font-sm mt-15 respond-button" data-id="${quote._id}">Respond</a>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+    <div class="card card-user">
+        <div class="card-header">
+            <img class="img-md img-avatar" src="assets/imgs/people/avatar-1.png" alt="User pic" />
+        </div>
+        <div class="card-body">
+            <h5 class="card-title mt-50">${quote.client}</h5>
+            <div class="card-text text-muted">
+                <p class="m-0">${quote.clientCode}</p>
+                <p>${quote.Email}</p>
+                <a class="btn btn-sm btn-brand rounded font-sm mt-15 view-details" data-id="${quote._id}">View details</a>
+                ${quote.attended ? '' : `<a class="btn btn-sm btn-brand rounded font-sm mt-15 respond-button" data-id="${quote._id}">Respond</a>`}
+            </div>
+        </div>
+    </div>
+`;
+
         
                         quotesContainer.appendChild(card);
                     });
@@ -556,57 +564,72 @@
         
                 // Function to handle details popup
                 function handleDetailsPopup(quoteId) {
-    fetch(`http://localhost:8000/quotes/fetch-by-quoteId/${quoteId}`)
-        .then(response => response.json())
-        .then(result => {
-            if (result.data) {
-                const quote = result.data;
-                console.log(quote)
-                // Set the quote details
-                document.getElementById("client-name").innerText = " " + quote.client;
-                document.getElementById("client-code").innerText = " " + quote.clientCode;
-                document.getElementById("quotation-code").innerText = " " + quote.quoteCode || " N/A";
-                document.getElementById("quote-date").innerText = " " + quote.createdAt.split('T')[0] || " N/A";
-                document.getElementById("due-date").innerText = " " + quote.dueDate.split('T')[0] || " N/A";
-                document.getElementById("notes").innerText = " " + quote.notes || " N/A";
-                document.getElementById("terms").innerText = " " + quote.terms || " N/A";
-
-                // Clear any existing products
-                const productsContainer = document.getElementById("quote-product");
-                productsContainer.innerHTML = ""; // Clear previous products
-
-                // Dynamically add products if they exist
-                if (quote.products && quote.products.length > 0) {
-                    quote.products.forEach((product, index) => {
-                        const productDiv = document.createElement("div");
-                        productDiv.style.marginBottom = "15px";
-
-                        productDiv.innerHTML = `
-                            <strong>Product ${index + 1}: ${product.ProductTitle}</strong>
-                            <div><strong>Details:</strong> ${product.properties}</div>
-                        `;
-
-                        productsContainer.appendChild(productDiv);
-                    });
-                } else {
-                    const noProductsMessage = document.createElement("div");
-                    noProductsMessage.innerText = "No products available for this quotation.";
-                    productsContainer.appendChild(noProductsMessage);
+                    fetch(`http://localhost:8000/quotes/fetch-by-quoteId/${quoteId}`)
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.data) {
+                                const quote = result.data;
+                                console.log(quote);
+                                // Set the quote details
+                                document.getElementById("client-name").innerText = " " + quote.client;
+                                document.getElementById("client-code").innerText = " " + quote.clientCode;
+                                document.getElementById("quotation-code").innerText = " " + quote.quoteCode || " N/A";
+                                document.getElementById("quote-date").innerText = " " + quote.createdAt.split('T')[0] || " N/A";
+                                document.getElementById("due-date").innerText = " " + quote.dueDate || " N/A";
+                                document.getElementById("notes").innerText = " " + quote.notes || " N/A";
+                                document.getElementById("terms").innerText = " " + quote.terms || " N/A";
+        
+                                // Show the details modal
+                                detailsModal.style.display = "flex";
+                            } else {
+                                console.error(result.error || "Failed to fetch quotation details.");
+                            }
+                        })
+                        .catch(error => console.error("Error fetching quotation details:", error));
                 }
-
-                // Show the details modal
-                detailsModal.style.display = "flex";
-            } else {
-                console.error(result.error || "Failed to fetch quotation details.");
-            }
-        })
-        .catch(error => console.error("Error fetching quotation details:", error));
-}
-
         
                 // Function to open the respond modal
                 function openRespondModal(quoteId) {
                     respondModal.style.display = "flex";
+        
+                    // Attach event listener to the save button
+                    const saveButton = document.getElementById("saveRespondButton");
+                    saveButton.onclick = function () {
+                        const noteField = document.getElementById("noteField").value;
+                        const fileField = document.getElementById("fileField").files[0];
+        
+                        if (noteField && fileField) {
+                            const formData = new FormData();
+                            formData.append("note", noteField);
+                            formData.append("dataId", quoteId);
+                            formData.append("file", fileField);
+        
+                            console.log("FormData:", {
+                                note: noteField,
+                                fileName: fileField.name,
+                                dataId: quoteId,
+                                file: fileField
+                            });
+                            fetch('http://localhost:8000/quotes/respond-quotation', {
+    method: 'POST',
+    body: formData 
+})
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            confirm('Responded successfully.');
+        } else {
+            confirm('Some problem occurred while responding.');
+        }
+    })
+    .catch(error => {
+        console.error("Error occurred while responding:", error);
+        alert("An error occurred while sending your response.");
+    });
+                        } else {
+                            alert("Please provide both a note and a file.");
+                        }
+                    };
                 }
         
                 // Function to close the details modal
@@ -636,12 +659,10 @@
                     event.preventDefault();
                     if (event.target.classList.contains("view-details")) {
                         const quoteId = event.target.getAttribute("data-id");
-                        console.log(quoteId)
                         handleDetailsPopup(quoteId);
                     } else if (event.target.classList.contains("respond-button")) {
                         const quoteId = event.target.getAttribute("data-id");
                         openRespondModal(quoteId);
-                        console.log(quoteId)
                     }
                 });
         
@@ -652,6 +673,7 @@
                 })();
             });
         </script>
+        
         
             
             

@@ -1,5 +1,31 @@
 const Quotation = require('../Models/QuotationModel');
 const mongoose = require('mongoose');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+
+
+
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, './tempUploads'); // Temporary folder for initial file storage
+  },
+  filename: (req, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+const upload = multer({ storage }).single('file'); // Handles single file upload
+
+
+
+
+
+
+
+
 
 const quoteSubmissionByClient = async (req, res) => {
   console.log(req.body);
@@ -98,6 +124,9 @@ const getById = async (req, res) => {
   }
 };
 
+
+
+// These handlers are for admins
 const getAllClients = async (req, res) => {
   try {
     // Fetch all quotations from the database
@@ -117,4 +146,65 @@ const getAllClients = async (req, res) => {
 };
 
 
-module.exports = { quoteSubmissionByClient, getQuotes, getById, getAllClients };
+const respondQuotation = async (req, res) => {
+  upload(req, res, async (err) => {
+    if (err) {
+      console.error("Error during file upload:", err);
+      return res.status(500).json({ error: "File upload failed." });
+    }
+
+    try {
+      const { note, dataId } = req.body;
+      const file = req.file;
+
+      // Log received data for debugging
+      console.log("Received FormData:", {
+        note,
+        fileName: file.originalname,
+        dataId,
+        filePath: file.path,
+      });
+
+      // Find and update the document in the Quotation model
+      const quotation = await Quotation.findOneAndUpdate(
+        { _id: dataId },
+        { responseFile: file.originalname, attended: true }, // Set attended to true
+        { new: true }
+      );
+
+      if (!quotation) {
+        return res.status(404).json({
+          success: false,
+          message: "Quotation not found.",
+        });
+      }
+
+      // Create the folder named with dataId in the specified directory
+      const targetDir = path.resolve(
+        __dirname,
+        "../../Frontend/assets/quotations",
+        dataId
+      );
+      if (!fs.existsSync(targetDir)) {
+        fs.mkdirSync(targetDir, { recursive: true });
+      }
+
+      // Move the file to the new directory
+      const targetPath = path.join(targetDir, file.originalname);
+      fs.renameSync(file.path, targetPath);
+
+      console.log(`File saved at: ${targetPath}`);
+
+      res.json({
+        success: true,
+        message: "Quotation responded to successfully.",
+      });
+    } catch (error) {
+      console.error("Error in respondQuotation:", error);
+      res.status(500).json({ error: "Server error. Please try again later." });
+    }
+  });
+};
+
+
+module.exports = { quoteSubmissionByClient, getQuotes, getById, getAllClients, respondQuotation };
