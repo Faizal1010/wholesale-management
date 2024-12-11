@@ -61,7 +61,8 @@ const quoteSubmissionByClient = async (req, res) => {
       Profile,
       Email, // Use products array as-is
       attended: false,
-      responseFile: 'N/A'
+      responseFile: 'N/A',
+      noteFromAdmin: 'N/A'
     }); 
       // Save the quotation to the database
     const savedQuotation = await newQuotation.save();
@@ -168,7 +169,7 @@ const respondQuotation = async (req, res) => {
       // Find and update the document in the Quotation model
       const quotation = await Quotation.findOneAndUpdate(
         { _id: dataId },
-        { responseFile: file.originalname, attended: true }, // Set attended to true
+        { responseFile: file.originalname, attended: true, noteFromAdmin: note }, // Set attended to true
         { new: true }
       );
 

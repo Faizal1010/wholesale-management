@@ -548,8 +548,8 @@
         <div class="card-body">
             <h5 class="card-title mt-50">${quote.client}</h5>
             <div class="card-text text-muted">
-                <p class="m-0">${quote.clientCode}</p>
                 <p>${quote.Email}</p>
+                <p class="m-0">Quote Code - ${quote.quoteCode}</p>
                 <a class="btn btn-sm btn-brand rounded font-sm mt-15 view-details" data-id="${quote._id}">View details</a>
                 ${quote.attended ? '' : `<a class="btn btn-sm btn-brand rounded font-sm mt-15 respond-button" data-id="${quote._id}">Respond</a>`}
             </div>
@@ -579,6 +579,17 @@
                                 document.getElementById("notes").innerText = " " + quote.notes || " N/A";
                                 document.getElementById("terms").innerText = " " + quote.terms || " N/A";
         
+
+                                const productsContainer = document.getElementById('quote-product')
+                                productsContainer.innerHTML = ""
+                                quote.products.forEach((product, index) =>{
+                                    const div = document.createElement('div')
+                                    div.style.marginBottom = '15px'
+                                    div.innerHTML = `<strong>Product ${index+1}: ${product.ProductTitle}</strong>
+                                                        <div><strong>Details:</strong> ${product.properties}</div>`
+
+                                    productsContainer.appendChild(div)
+                                })
                                 // Show the details modal
                                 detailsModal.style.display = "flex";
                             } else {

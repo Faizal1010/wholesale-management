@@ -54,6 +54,10 @@ const QuotationSchema = new mongoose.Schema({
   responseFile:{
     type: String,
     required: true
+  },
+  noteFromAdmin:{
+    type: String,
+    required: true
   }
 }, { timestamps: true });
 

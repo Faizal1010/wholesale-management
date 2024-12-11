@@ -342,60 +342,27 @@
             </div>
           </header>
           
-          <div id="card-body" class="card-body">
-            <table style="width: 100%; border-collapse: collapse; background-color: #2a3042; color: #ffffff; margin: 20px auto; font-size: 16px; border-radius: 8px; overflow: hidden;">
-                <thead style="background-color: #1f2430;">
-                  <tr>
-                    <th style="padding: 10px 15px; text-align: left; font-weight: bold;">Client</th>
-                    <th style="padding: 10px 15px; text-align: left; font-weight: bold;">Quote Date</th>
-                    <th style="padding: 10px 15px; text-align: left; font-weight: bold;">Due Date</th>
-                    <th style="padding: 10px 15px; text-align: left; font-weight: bold;">Amount</th>
-                    <th style="padding: 10px 15px; text-align: left; font-weight: bold;">Status</th>
-                    <th style="padding: 10px 15px; text-align: left; font-weight: bold;">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr style="background-color: #2a3042;">
-                    <td style="padding: 10px 15px; text-align: left;">
-                      <div>
-                        <strong>Client 2</strong> <span style="color: #4a6cf7;">A4OK51</span><br>
-                        <span style="font-size: 14px; color: #b0b0b0;">client2@gmail.com</span>
-                      </div>
-                    </td>
-                    <td style="padding: 10px 15px; text-align: left;">
-                      <span style="display: inline-block; padding: 5px 10px; background-color: #4a6cf7; color: #ffffff; font-size: 14px; border-radius: 12px;">2024-05-16</span>
-                    </td>
-                    <td style="padding: 10px 15px; text-align: left;">
-                      <span style="display: inline-block; padding: 5px 10px; background-color: #4a6cf7; color: #ffffff; font-size: 14px; border-radius: 12px;">2024-05-31</span>
-                    </td>
-                    <td style="padding: 10px 15px; text-align: left;">₹1,800.00</td>
-                    <td style="padding: 10px 15px; text-align: left;">
-                      <span style="display: inline-block; padding: 5px 10px; background-color: #58d68d; color: #ffffff; font-size: 14px; border-radius: 12px;">Converted</span>
-                    </td>
-                    <td style="padding: 10px 15px; text-align: left;">...</td>
-                  </tr>
-                  <tr style="background-color: #3a4153;">
-                    <td style="padding: 10px 15px; text-align: left;">
-                      <div>
-                        <strong>Client 2</strong> <span style="color: #4a6cf7;">GRDLZN</span><br>
-                        <span style="font-size: 14px; color: #b0b0b0;">client2@gmail.com</span>
-                      </div>
-                    </td>
-                    <td style="padding: 10px 15px; text-align: left;">
-                      <span style="display: inline-block; padding: 5px 10px; background-color: #4a6cf7; color: #ffffff; font-size: 14px; border-radius: 12px;">2024-05-15</span>
-                    </td>
-                    <td style="padding: 10px 15px; text-align: left;">
-                      <span style="display: inline-block; padding: 5px 10px; background-color: #4a6cf7; color: #ffffff; font-size: 14px; border-radius: 12px;">2024-05-16</span>
-                    </td>
-                    <td style="padding: 10px 15px; text-align: left;">7,500.00 €</td>
-                    <td style="padding: 10px 15px; text-align: left;">
-                      <span style="display: inline-block; padding: 5px 10px; background-color: #58d68d; color: #ffffff; font-size: 14px; border-radius: 12px;">Converted</span>
-                    </td>
-                    <td style="padding: 10px 15px; text-align: left;">...</td>
-                  </tr>
-                </tbody>
-              </table>
-          </div>
+          <div id="given-quotation" class="card-body">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
+                <div class="col">
+                    <div class="card card-user">
+                        <div class="card-header">
+                            <img class="img-md img-avatar" src="assets/imgs/people/avatar-1.png" alt="User pic" />
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mt-50">client</h5>
+                            <div class="card-text text-muted">
+                                <p class="m-0">clientCode</p>
+                                <p>Email</p>
+                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">Respond</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         </div>
         <div class="pagination-area mt-30 mb-50">
           <nav aria-label="Page navigation example">
@@ -581,7 +548,67 @@
   </section>
   </div>
 </div>
+<div id="quotationModalClients" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); justify-content: center; align-items: center; z-index: 1000;">
+  <div style="background-color: #fff; padding: 20px; border-radius: 8px; width: 90%; max-width: 600px; max-height: 90%; overflow-y: auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+          <h2 style="margin: 0; font-size: 1.5em; color: black;">Quotation Details</h2>
+          <button id="closeModalx" style="font-size: 1.5em; cursor: pointer; background: none; border: none;">×</button>
+      </div>
+      <div style="margin-top: 20px;">
+          <div><strong>Client Name:</strong><span id="client-name"> Bucky Barnes </span></div>
+          <div><strong>Client Code:</strong><span id="client-code"> CBL93D </span></div>
+          <div><strong>Quotation Code:</strong><span id="quotation-code"> QGV46M </span></div>
+          <div><strong>Quote Date:</strong><span id="quote-date"> 2024-12-06 </span></div>
+          <div><strong>Due Date:</strong><span id="due-date"> Not specified </span></div>
+          <div><strong>Notes:</strong><span id="notes"> Noti </span></div>
+          <div><strong>Terms:</strong><span id="terms"> Termi </span></div>
+      </div>
+      <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px;">
+          <h3 style="color: black;">Products:</h3>
+          <div id="quote-product">
+              <div style="margin-bottom: 15px;">
+                  <strong>Product 1: Laptop</strong>
+                  <div><strong>Details:</strong> i1000</div>
+              </div>
+          </div>
+      </div>
+      <div style="text-align: right; padding-top: 10px;">
+          <button id="closeModalbutton" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Close</button>
+      </div>
+  </div>
+</div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="quotationModalClients-pdf" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); justify-content: center; align-items: center; z-index: 1000;">
+  <div style="background-color: #fff; padding: 20px; border-radius: 8px; width: 90%; max-width: 600px; max-height: 90%; overflow-y: auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+          <h2 style="margin: 0; font-size: 1.5em; color: black;">Quotation Details</h2>
+          <button id="closeModalx-view" style="font-size: 1.5em; cursor: pointer; background: none; border: none;">×</button>
+      </div>
+      <div style="margin-top: 20px;">
+          <div><strong>Notes:</strong><span id="note-from-admin"> Notes wil Appear here </span></div>
+      </div>
+      <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px;">
+        <a id="pdf-from-admin">See sent PDF</a>
+      </div>
+      <div style="text-align: right; padding-top: 10px;">
+          <button id="closeModalbutton-view" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Close</button>
+      </div>
+  </div>
+</div>
     
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
@@ -594,216 +621,168 @@
 
 
 
-    <!-- script to render products with specific tags -->
-    <!-- <script>
-      function renderTag(products) {
-        const cardBody = document.getElementById('card-body');
-    
-        cardBody.innerHTML = '';
 
-        if(!products){
-          cardBody.innerHTML = '<h3>No product found with this tag</h3>';
-        }else{
-          products.forEach(product => {
-            const productArticle = document.createElement('article');
-          productArticle.classList.add('itemlist');
-    
-          productArticle.innerHTML = 
-            `<div class="row align-items-center">
-              <div class="col col-check flex-grow-0">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                </div>
-              </div>
-              <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-                <a class="itemside" href="#">
-                  <div class="left">
-                    <img
-                      src="./assets/ProductsImages/${product.ProductTitle}.jpg"
-                      class="img-sm img-thumbnail"
-                      alt="Item"
-                    />
-                  </div>
-                  <div class="info">
-                    <h6 class="mb-0">${product.ProductTitle}</h6>
-                    </div>
-                </a>
-              </div>
-              <div class="col-lg-2 col-sm-2 col-4 col-price">
-                <span>₹${product.RegularPrice}</span>
-                </div>
-                <div class="col-lg-2 col-sm-2 col-4 col-status">
-                  <span class="badge rounded-pill ${product.active ? 'alert-success' : 'alert-warning'}">
-                    ${product.active ? 'Active' : 'Archived'}
-                    </span>
-                    </div>
-                    <div class="col-lg-1 col-sm-2 col-4 col-date">
-                      <span>${new Date(product.createdAt).toLocaleDateString()}</span>
-                      </div>
-                      <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-                        <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                  <i class="material-icons md-edit"></i> Edit
-                </a>
-                <a href="#" class="btn btn-sm font-sm btn-light rounded delete-product" data-id="${product._id}" data-title="${product.ProductTitle}">
-                  <i class="material-icons md-delete_forever"></i> Delete
-                </a>
-              </div>
-              </div>`;
-              
-              cardBody.appendChild(productArticle);
-            });
-          }
-      };
-      const retrieveBYTag = (e) => {
-        const TagInput = document.getElementById('TagInput')
-        const TagName = TagInput.value
-        
-        fetch(`http://localhost:8000/products/retrieveByTagName/${TagName}`,{
-          method : 'GET',
-          headers : {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(response=>response.json())
-        .then(data=>renderTag(data.products))
-      }
-    </script> -->
-
-            <!-- script for adding categories -->
-    <!-- <script>
-      document.addEventListener('DOMContentLoaded', () =>{
-        fetch("http://localhost:8000/categories/getcategories")
-        .then(response=>response.json())
-        .then(data=>{
-          const categories = data.categories
-          displayCategories(categories)
-        })
-      })
-
-      const displayCategories = (categories) => {
-        const displaycategory = document.getElementById('get-products-category')
-        displaycategory.innerHTML = ''
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const quotationContainer = document.querySelector("#given-quotation .row");
+        const detailsModal = document.getElementById("quotationModalClients");
       
-        categories.forEach(category => {
-          const option1 = document.createElement('option')
-          option1.innerHTML = `<option>${category.Name}</option>`
-          displaycategory.appendChild(option1)
-
+        // Close modal functionality
+        const closeModalButtons = document.querySelectorAll("#closeModalx, #closeModalbutton");
+        closeModalButtons.forEach(button => {
+          button.addEventListener("click", () => {
+            detailsModal.style.display = "none";
+          });
         });
-      }
-    </script> -->
-
-
-<!-- script for rendering products from database, editing and deleting them -->
-<!-- <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const categorySelector = document.getElementById('get-products-category');
-    const cardBody = document.getElementById('card-body');
-    const popupContainer = document.getElementById('popup-container');
-    const closePopupButton = document.getElementById('close-popup');
-
-    // Fetch and render products by category
-    categorySelector.addEventListener('click', () => {
-      const category = categorySelector.value;
-      fetch(`http://localhost:8000/products/getproducts/${category}`)
-        .then((response) => response.json())
-        .then((data) => renderProducts(data))
-        .catch((error) => console.error('Error fetching products:', error));
-    });
-
-    // Render products in the UI
-    function renderProducts(products) {
-      cardBody.innerHTML = '';
-      if (products.length < 1) {
-        cardBody.innerHTML = '<h3>No product found with this tag/Category</h3>';
-        return;
-      }
-      products.forEach((product) => {
-        const productArticle = document.createElement('article');
-        productArticle.classList.add('itemlist');
-        productArticle.innerHTML = `
-          <div class="row align-items-center">
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="left">
-                  <img
-                    src="./assets/ProductsImages/${product.ProductTitle}/${product.ProductTitle}.jpg"
-                    class="img-sm img-thumbnail"
-                    alt="Item"
-                  />
-                </div>
-                <div class="info">
-                  <h6 class="mb-0">${product.ProductTitle}</h6>
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-price">
-              <span>₹${product.RegularPrice}</span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-status">
-              <span class="badge rounded-pill ${
-                product.active ? 'alert-success' : 'alert-warning'
-              }">
-                ${product.active ? 'Active' : 'Archived'}
-              </span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-              <a href="#" class="btn btn-sm font-sm rounded btn-brand edit-product" data-id="${product._id}">
-                <i class="material-icons md-edit"></i> Edit
-              </a>
-              <a href="#" class="btn btn-sm font-sm btn-light rounded delete-product" data-id="${product._id}" data-title="${product.ProductTitle}">
-                <i class="material-icons md-delete_forever"></i> Delete
-              </a>
-            </div>
-          </div>`;
-        cardBody.appendChild(productArticle);
-      });
-    }
-
-    // Event delegation for handling edit and delete actions
-    cardBody.addEventListener('click', (event) => {
-      const target = event.target;
-      const editButton = target.closest('.edit-product');
-      const deleteButton = target.closest('.delete-product');
-
-      if (editButton) {
-        handleEdit(editButton);
-      }
-      if(deleteButton){
-        handleDelete(deleteButton)
-      }
-    });
-
-
-    function handleDelete(button) {
-      const productId = button.getAttribute('data-id');
-      const categorySelector = document.getElementById('get-products-category').value;
-
-      fetch(`http://localhost:8000/products/deleteproduct/${productId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({category: categorySelector})
-      })
-      console.log(productId)
-      console.log(categorySelector)
-    }
-    // Open popup for editing a product
-    function handleEdit(button) {
-      const productId = button.getAttribute('data-id');
-      console.log(`Edit product with ID: ${productId}`);
       
-      // Display the popup
-      popupContainer.style.display = 'block';
-    }
+        async function fetchAndDisplayQuotations() {
+          // Clear the container before adding new content
+          quotationContainer.innerHTML = "";
+      
+          try {
+            const response = await fetch("http://localhost:8000/quotes/all-clients");
+      
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+      
+            const data = await response.json();
+            const quotations = data.data;
+      
+            quotations.forEach(quote => {
+              if (quote.attended) {
+                const quoteCard = document.createElement("div");
+                quoteCard.className = "col";
+                quoteCard.innerHTML = `
+                  <div class="card card-user">
+                    <div class="card-header">
+                      <img class="img-md img-avatar" src="./assets/clientsProfiles/${quote.Email}/${quote.Profile}" alt="User pic" />
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title mt-50">${quote.client}</h5>
+                      <div class="card-text text-muted">
+                        <p>${quote.Email}</p>
+                <p class="m-0">Quote Code - ${quote.quoteCode}</p>
+                        <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15 view-details" data-id="${quote._id}">View details</a>
+                        <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15 show-quote" data-id="${quote._id}">Show</a>
+                      </div>
+                    </div>
+                  </div>`;
+                quotationContainer.appendChild(quoteCard);
+              }
+            });
+      
+            // Attach event listeners to buttons
+            attachEventListeners();
+          } catch (error) {
+            console.error("Error fetching quotations:", error);
+          }
+        }
+      
+        function attachEventListeners() {
+          // "View Details" buttons
+          const viewDetailsButtons = document.querySelectorAll(".view-details");
+          viewDetailsButtons.forEach(button => {
+            button.addEventListener("click", event => {
+              event.preventDefault();
+              const quoteId = button.getAttribute("data-id");
+              handleViewDetails(quoteId);
+            });
+          });
+      
+          // "Show" buttons
+          const showButtons = document.querySelectorAll(".show-quote");
+          showButtons.forEach(button => {
+            button.addEventListener("click", event => {
+              event.preventDefault();
+              const quoteId = button.getAttribute("data-id");
+              handleShowQuote(quoteId);
+            });
+          });
+        }
+      
+        function handleViewDetails(quoteId) {
+          fetch(`http://localhost:8000/quotes/fetch-by-quoteId/${quoteId}`)
+            .then(response => response.json())
+            .then(result => {
+              if (result.data) {
+                const quote = result.data;
+      
+                // Populate modal with quote details
+                document.getElementById("client-name").innerText = " " + quote.client;
+                document.getElementById("client-code").innerText = " " + quote.clientCode;
+                document.getElementById("quotation-code").innerText = " " + (quote.quoteCode || "N/A");
+                document.getElementById("quote-date").innerText = " " + (quote.createdAt.split('T')[0] || "N/A");
+                document.getElementById("due-date").innerText = " " + (quote.dueDate || "N/A");
+                document.getElementById("notes").innerText = " " + (quote.notes || "N/A");
+                document.getElementById("terms").innerText = " " + (quote.terms || "N/A");
+      
+                const productsContainer = document.getElementById("quote-product");
+                productsContainer.innerHTML = ""; // Clear existing products
+                quote.products.forEach((product, index) => {
+                  productsContainer.innerHTML += `
+                    <div style="margin-bottom: 15px;">
+                      <strong>Product ${index + 1}: ${product.ProductTitle}</strong>
+                      <div><strong>Details:</strong> ${product.properties}</div>
+                    </div>`;
+                });
+      
+                // Show the modal
+                detailsModal.style.display = "flex";
+              }
+            })
+            .catch(error => {
+              console.error("Error fetching quote details:", error);
+            });
+        }
+      
+        function handleShowQuote(quoteId) {
+          console.log(`Show button clicked for Quote ID: ${quoteId}`);
+          const viewModal = document.getElementById('quotationModalClients-pdf')
+          viewModal.style.display = 'flex'
+          // Add your desired "Show" button logic here
 
-    // Close popup
-    closePopupButton.addEventListener('click', () => {
-      popupContainer.style.display = 'none';
-    });
-  });
-</script> -->
+          document.getElementById('closeModalx-view').addEventListener('click', () => {
+            viewModal.style.display = 'none'
+          })
+          document.getElementById('closeModalbutton-view').addEventListener('click', () => {
+            viewModal.style.display = 'none'
+          })
+
+
+          fetch(`http://localhost:8000/quotes/fetch-by-quoteId/${quoteId}`,{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then(response=>response.json())
+          .then(data=>{
+            console.log(data.data)
+
+            const noteFromAdmin = document.getElementById('note-from-admin')
+            noteFromAdmin.innerText = ""
+            noteFromAdmin.innerText = data.data.noteFromAdmin
+
+            const pdfFromAdmin = document.getElementById('pdf-from-admin')
+            pdfFromAdmin.href = `./assets/quotations/${data.data._id}/${data.data.responseFile}`
+          })
+        }
+      
+        fetchAndDisplayQuotations();
+      });
+      </script>
+      
+
+
+
+
+
+
+
+
+
+
+
 <script>
   document.getElementById('logout').addEventListener('click', function () {
 // Remove the token from localStorage
