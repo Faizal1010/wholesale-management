@@ -117,5 +117,35 @@ const getAllPayments = async (req, res) => {
   }
 };
 
+const GetPaymentsByClientId = async (req, res) => {
+  try {
+    const { id: clientId } = req.params; // Extract clientId from route parameters
 
-module.exports = { addPayment, getAllPayments };
+    // Find payments matching the provided clientId
+    const payments = await Payments.find({ clientId });
+
+    if (!payments || payments.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No payment records found for the specified clientId',
+      });
+    }
+
+    // Send the matching payments as a response
+    res.status(200).json({
+      success: true,
+      message: 'Payments retrieved successfully',
+      data: payments,
+    });
+  } catch (error) {
+    console.error('Error fetching payments by clientId:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch payments',
+      error: error.message,
+    });
+  }
+};
+
+
+module.exports = { addPayment, getAllPayments, GetPaymentsByClientId };
