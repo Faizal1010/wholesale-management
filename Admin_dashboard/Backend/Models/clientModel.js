@@ -53,6 +53,14 @@ const ClientSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
+    },
+    DueAmount:{
+        type: Number,
+        required: true
+    },
+    PaidAmount:{
+        type: Number,
+        required: true
     }
 }, { timestamps :true })
 

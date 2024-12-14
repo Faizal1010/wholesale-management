@@ -361,7 +361,7 @@ const getAll = async (req, res) => {
         for (const collection of collections) {
             const collectionName = collection.name;
 
-            if (collectionName === 'Categories' || collectionName === 'clients' || collectionName === 'sessions') {
+            if ( collectionName === 'admins' || collectionName === 'Categories' || collectionName === 'clients' || collectionName === 'sessions' || collectionName === 'notifications' || collectionName === 'orders' || collectionName === 'quotations'    ) {
                 continue;
             }
 

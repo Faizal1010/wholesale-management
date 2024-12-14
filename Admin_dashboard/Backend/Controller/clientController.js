@@ -87,7 +87,9 @@ const addClient = async (req, res) => {
             Notes,
             GSTIN,
             Profile,
-            CustomerId
+            CustomerId,
+            DueAmount: 0,
+            PaidAmount:0
         });
 
         // Send success response
@@ -105,11 +107,6 @@ const addClient = async (req, res) => {
         });
     }
 };
-
-
-
-
-
 
 
 
@@ -321,4 +318,120 @@ const getClientByCustomerId = async (req, res) => {
 };
 
 
-module.exports = { addClient, getClient, deleteClient, uploadProfile, getLatestClients, getClientById, getClientByCustomerId };
+
+
+const addDueAmount = async (req, res) => {
+    try {
+        const { CustomerId, additionalAmount } = req.body;
+
+        // Validate the input
+        if (!CustomerId || additionalAmount == null) {
+            return res.status(400).json({
+                success: false,
+                message: "Customer ID and additional amount are required",
+            });
+        }
+
+        // Ensure additionalAmount is a valid number
+        const parsedAmount = Number(additionalAmount);
+        if (isNaN(parsedAmount)) {
+            return res.status(400).json({
+                success: false,
+                message: "Additional amount must be a valid number",
+            });
+        }
+
+        // Find the client by CustomerId
+        const client = await Client.findOne({ CustomerId });
+
+        if (!client) {
+            return res.status(404).json({
+                success: false,
+                message: "Client not found",
+            });
+        }
+
+        // Add the new amount to the existing DueAmount
+        client.DueAmount += parsedAmount;
+
+        // Save the updated client document
+        await client.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Due amount updated successfully",
+            client,
+        });
+    } catch (error) {
+        console.error('Error updating due amount:', error);
+        res.status(500).json({
+            success: false,
+            message: "Could not update due amount due to an internal error",
+            error: error.message,
+        });
+    }
+};
+
+
+const subtractDueAmount = async (req, res) => {
+    try {
+        const { CustomerId, subtractAmount } = req.body;
+        console.log(CustomerId, subtractAmount)
+        // Validate the input
+        if (!CustomerId || subtractAmount == null) {
+            return res.status(400).json({
+                success: false,
+                message: "Customer ID and subtract amount are required",
+            });
+        }
+
+        // Ensure subtractAmount is a valid number
+        const parsedAmount = Number(subtractAmount);
+        if (isNaN(parsedAmount) || parsedAmount < 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Subtract amount must be a valid non-negative number",
+            });
+        }
+
+        // Find the client by CustomerId
+        const client = await Client.findOne({ CustomerId });
+
+        if (!client) {
+            return res.status(404).json({
+                success: false,
+                message: "Client not found",
+            });
+        }
+
+        // Ensure the DueAmount does not go negative
+        if (client.DueAmount < parsedAmount) {
+            return res.status(400).json({
+                success: false,
+                message: "Subtract amount exceeds the due amount",
+            });
+        }
+
+        // Subtract the amount from DueAmount and add to PaidAmount
+        client.DueAmount -= parsedAmount;
+        client.PaidAmount += parsedAmount;
+
+        // Save the updated client document
+        await client.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Due amount updated successfully",
+            client,
+        });
+    } catch (error) {
+        console.error('Error updating due amount:', error);
+        res.status(500).json({
+            success: false,
+            message: "Could not update due amount due to an internal error",
+            error: error.message,
+        });
+    }
+};
+
+module.exports = { addClient, getClient, deleteClient, uploadProfile, getLatestClients, getClientById, getClientByCustomerId, addDueAmount, subtractDueAmount };

@@ -236,15 +236,22 @@
                       
                         <!-- Order ID Field -->
                         <label for="orderId" style="display: block; margin-bottom: 5px; font-size: 14px;">Order ID:</label>
-                        <input type="text" id="orderId" name="orderId" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;" required>
-                      
+                        <input readonly type="text" id="orderId" name="orderId" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; background-color: rgb(153, 153, 153);" required>
+                        
                         <!-- Customer Name Field -->
-                        <label for="customerName" style="display: block; margin-bottom: 5px; font-size: 14px;">Customer Name:</label>
-                        <input type="text" id="customerName" name="customerName" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;" required>
-                      
+                        <label for="customerName" style="font-weight: bold;">Client Name:<span style="color: red;">*</span></label>
+                        <select onchange="fillDetailsOfClient(this)" id="customerName" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                          <option value="" selected>Select Client</option>
+                          <!-- Add more client options as needed -->
+                        </select>
+
                         <!-- Customer ID Field -->
                         <label for="customerId" style="display: block; margin-bottom: 5px; font-size: 14px;">Customer ID:</label>
-                        <input type="text" id="customerId" name="customerId" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;" required>
+                        <input readonly type="text" id="customerId" name="customerId" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; background-color: rgb(153, 153, 153);" required>
+
+                        <!-- Customer Email Field -->
+                        <label for="customerEmail" style="display: block; margin-bottom: 5px; font-size: 14px;">Customer Email:</label>
+                        <input readonly type="text" id="customerEmail" name="customerEmail" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; background-color: rgb(153, 153, 153);" required>
                       
                         <!-- Product Rows Section -->
                         <div id="productRows" style="margin-bottom: 20px;">
@@ -306,6 +313,95 @@
         <!-- Main Script -->
         <script src="assets/js/main.js?v=6.0" type="text/javascript"></script>
 
+
+
+
+<!-- script for displaying client details -->
+        <script>
+            let customerName;
+                fetch(`http://localhost:8000/clients/get-client`,{
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'appliaction/json'
+                    }
+                }).then(response=>response.json())
+                .then(data=>{
+                    console.log(data.clients)
+                    const clientsDropdown = document.getElementById('customerName')
+                    
+                    data.clients.forEach(client=>{
+                        const option = document.createElement('option')
+                        option.value = client._id
+                        option.textContent = client.FirstName + " " + client.LastName
+
+                        clientsDropdown.appendChild(option)
+                    })
+                })
+
+
+                function fillDetailsOfClient (e){
+                    fetch(`http://localhost:8000/clients/by-id-client/${e.value}`,{
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(response=>response.json())
+                    .then(data=>{
+                        console.log('data is', data)
+                        const customerEmail = document.getElementById('customerEmail')
+                        customerEmail.value = data.client.Email
+
+                        const customerId = document.getElementById('customerId')
+                        customerId.value = data.client.CustomerId
+
+                        customerName = data.client.FirstName + " " + data.client.LastName
+                    })
+                }
+        </script>
+
+
+<!-- script for filling the details -->
+        <script>
+                                const getRandomLetter = () => {
+                const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    return letters.charAt(Math.floor(Math.random() * letters.length));
+};
+
+// Generate random number (2 digits)
+const getRandomNumber = () => {
+    return Math.floor(Math.random() * 100);  // Random number between 0 and 99
+};
+
+// Generate random final letter (1 letter)
+const getFinalLetter = () => {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    return letters.charAt(Math.floor(Math.random() * letters.length));
+};
+
+// Combine all parts
+const lettersPart = getRandomLetter() + getRandomLetter();  // Two random letters
+const numberPart = getRandomNumber().toString().padStart(2, '0');  // Ensure it's always 2 digits
+const finalLetter = getFinalLetter();  // One random letter for the end
+
+// Store the final product code
+const orderCode = '0' + lettersPart + numberPart + finalLetter;
+
+const orderId = document.getElementById('orderId')
+orderId.value = orderCode
+
+
+
+        </script>
+
+
+
+
+
+
+
+
+
+
 <!-- dynamically set prices of each products -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -313,42 +409,46 @@
         const addRowButton = document.getElementById('addRowButton');
         const totalPriceEl = document.getElementById('totalPrice');
         const orderForm = document.getElementById('orderForm');
+        let finalPrice;
     
-        let productPrices = {};
-        let products = []; // To store the fetched products
+        let productRowsData = []; // Track data for each row
+        let products = []; // Store fetched products
     
-        // Fetch products from backend
+        // Fetch products from the backend
         fetch('http://localhost:8000/products/getProduct/getAll', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data); // Verify the fetched data
-            products = data.products || []; // Store products in the products array
+            .then((response) => response.json())
+            .then((data) => {
+                products = data.products || []; // Store fetched products
+                createProductRow(); // Create the first row once products are available
+            })
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+            });
     
-            // Add a row after the products have been fetched
-            createProductRow(); // Create the first row once products are available
-        })
-        .catch(error => {
-            console.error('Error fetching products:', error);
-        });
-    
-        // Function to update total price
+        // Update total price
         function updateTotalPrice() {
-            const totalPrice = Object.values(productPrices).reduce((sum, val) => sum + val[0], 0); // Only sum the price (first element of the array)
+            const totalPrice = productRowsData.reduce((sum, row) => sum + (parseFloat(row.productPrice) || 0), 0);
             totalPriceEl.textContent = totalPrice.toFixed(2);
+            finalPrice = totalPrice
         }
     
-        // Function to create a new product row
+        // Create a new product row
         function createProductRow() {
             const row = document.createElement('div');
             row.classList.add('product-row');
             row.style.marginBottom = '10px';
     
-            // Create the select input for products dynamically
+            // Unique ID for this row
+            const rowId = `row-${Date.now()}`;
+            const rowData = { id: rowId, productName: '', productPrice: 0, productProperties: '' };
+            productRowsData.push(rowData);
+    
+            // Product select dropdown
             const select = document.createElement('select');
             select.classList.add('product-select');
             select.style.width = '200px';
@@ -356,7 +456,6 @@
             select.style.marginRight = '10px';
             select.style.borderRadius = '5px';
     
-            // Add the default 'Select Product' option
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
             defaultOption.disabled = true;
@@ -364,163 +463,119 @@
             defaultOption.textContent = 'Select Product';
             select.appendChild(defaultOption);
     
-            // Populate the select dropdown with products
-            products.forEach(product => {
+            products.forEach((product) => {
                 const option = document.createElement('option');
-                option.value = product.ProductCode; // Set product ID as the value
-                option.textContent = product.ProductTitle; // Set product name as the text
+                option.value = product.ProductCode;
+                option.textContent = product.ProductTitle;
                 select.appendChild(option);
             });
     
-            // Create the other input fields (details and price)
             const productDetails = document.createElement('input');
             productDetails.type = 'text';
             productDetails.classList.add('product-details');
             productDetails.placeholder = 'Details';
             productDetails.style.width = '200px';
-            productDetails.style.padding = '5px';
             productDetails.style.marginRight = '10px';
-            productDetails.style.border = '1px solid #ccc';
-            productDetails.style.borderRadius = '5px';
     
             const productPrice = document.createElement('input');
             productPrice.type = 'number';
             productPrice.classList.add('product-price');
             productPrice.placeholder = 'Price';
             productPrice.style.width = '100px';
-            productPrice.style.padding = '5px';
             productPrice.style.marginRight = '10px';
-            productPrice.style.border = '1px solid #ccc';
-            productPrice.style.borderRadius = '5px';
     
             const deleteButton = document.createElement('button');
             deleteButton.type = 'button';
             deleteButton.classList.add('delete-row');
             deleteButton.textContent = 'Delete';
-            deleteButton.style.padding = '5px 10px';
             deleteButton.style.backgroundColor = '#dc3545';
             deleteButton.style.color = '#fff';
-            deleteButton.style.border = 'none';
             deleteButton.style.borderRadius = '5px';
-            deleteButton.style.cursor = 'pointer';
     
-            // Append the created elements to the row
             row.appendChild(select);
             row.appendChild(productDetails);
             row.appendChild(productPrice);
             row.appendChild(deleteButton);
+            productRows.appendChild(row);
     
-            // Event listeners for the select, input fields, and delete button
+            // Event listeners
             select.addEventListener('change', () => {
-    const previousProductCode = Object.keys(productPrices).find(code => code === select.dataset.previousCode);
-    const productCode = select.value;
-
-    if (previousProductCode) {
-        delete productPrices[previousProductCode]; // Remove the previously selected product
-    }
-
-    const price = parseFloat(productPrice.value) || 0;
-    const details = productDetails.value || '';
-
-    const selectedProduct = products.find(product => product.ProductCode === productCode);
-    const productName = selectedProduct ? selectedProduct.ProductTitle : 'Unknown Product';
-
-    if (productCode) {
-        productPrices[productCode] = [price, details, productName];
-        select.dataset.previousCode = productCode; // Save the currently selected product code
-    }
-
-    updateTotalPrice();
-});
-
+                const productCode = select.value;
+                rowData.productName = products.find((p) => p.ProductCode === productCode)?.ProductTitle || '';
+            });
     
             productPrice.addEventListener('input', () => {
-                const productCode = select.value;
-                if (productCode) {
-                    const price = parseFloat(productPrice.value) || 0;
-                    const details = productDetails.value || '';
-                    const selectedProduct = products.find(product => product.ProductCode === productCode);
-                    const productName = selectedProduct ? selectedProduct.ProductTitle : 'Unknown Product';
-    
-                    productPrices[productCode] = [price, details, productName]; // Update price and details
-                    updateTotalPrice();
-                }
+                rowData.productPrice = parseFloat(productPrice.value) || 0;
+                updateTotalPrice();
             });
     
             productDetails.addEventListener('input', () => {
-                const productCode = select.value;
-                if (productCode) {
-                    const price = parseFloat(productPrice.value) || 0;
-                    const details = productDetails.value || '';
-                    const selectedProduct = products.find(product => product.ProductCode === productCode);
-                    const productName = selectedProduct ? selectedProduct.ProductTitle : 'Unknown Product';
-    
-                    productPrices[productCode] = [price, details, productName]; // Update price and details
-                }
+                rowData.productProperties = productDetails.value || '';
             });
     
             deleteButton.addEventListener('click', () => {
-                const productCode = select.value;
-                if (productCode) {
-                    delete productPrices[productCode]; // Delete product from the list
+                const rowIndex = productRowsData.findIndex((data) => data.id === rowId);
+                if (rowIndex !== -1) {
+                    productRowsData.splice(rowIndex, 1);
                 }
                 row.remove();
                 updateTotalPrice();
             });
-    
-            // Append the row to the productRows container
-            productRows.appendChild(row);
         }
     
-        // Add new row on button click
+        // Add row button click
         addRowButton.addEventListener('click', createProductRow);
     
-        // Handle form submission
+        // Form submission
         orderForm.addEventListener('submit', (e) => {
             e.preventDefault();
     
             const orderId = document.getElementById('orderId').value;
-            const customerName = document.getElementById('customerName').value;
             const customerId = document.getElementById('customerId').value;
     
-            // Format form data with product prices and their details
             const formData = {
                 orderId,
-                customerName,
                 customerId,
-                products: Object.entries(productPrices).reduce((acc, [code, [price, details, productName]]) => {
-                    acc[productName] = [price, details]; // Save product name as the key, with price and details
-                    return acc;
-                }, {}), 
+                customerName,
+                products: productRowsData.map((row) => ({
+                    productName: row.productName,
+                    productPrice: row.productPrice,
+                    productProperties: row.productProperties,
+                })),
                 totalPrice: parseFloat(totalPriceEl.textContent),
             };
     
-            console.log('Data to store in database:', formData);
-            // Send `formData` to your backend here
+            console.log(formData.products);
             fetch('http://localhost:8000/orders/add-order', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Failed to create order');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            console.log('Order created successfully:', data);
-            alert('Order created successfully!');
-        })
-        .catch((error) => {
-            console.error('Error creating order:', error);
-            alert('Error creating order.');
-        });
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to create order');
+                    }
+                    fetch('http://localhost:8000/clients/dueAmount-add',{
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({additionalAmount: finalPrice, CustomerId:formData.customerId})
+                    })
+                    return response.json();
+                })
+                .then((data) => {
+                    alert('Order created successfully!');
+                })
+                .catch((error) => {
+                    alert('Error creating order.');
+                });
         });
     });
     </script>
+    
     
 
 

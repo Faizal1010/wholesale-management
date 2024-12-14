@@ -3,9 +3,17 @@ const Order = require('../Models/ordersModel'); // Import the model
 
 
 
+
+// Add Order Controller
 const addOrder = async (req, res) => {
+    console.log(req.body)
     try {
         const { orderId, customerName, customerId, products, totalPrice } = req.body;
+
+        // Validate required fields
+        if (!orderId || !customerName || !customerId || !products || !totalPrice) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
 
         // Create a new order instance
         const newOrder = new Order({
@@ -24,7 +32,7 @@ const addOrder = async (req, res) => {
         console.error('Error creating order:', error);
         res.status(500).json({ message: 'Failed to create order', error });
     }
-}
+};
 
 const getOrders = async (req, res) => {
     try {

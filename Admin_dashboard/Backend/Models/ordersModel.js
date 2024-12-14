@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const connectDB = require('../Config/config')
+const mongoose = require('mongoose');
+const connectDB = require('../Config/config');
 
-connectDB()
+connectDB();
 
 const OrdersSchema = new mongoose.Schema({
     orderId: {
@@ -17,11 +17,13 @@ const OrdersSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    products: {
-        type: Map,
-        of: [String, Number], // Values will be arrays with a string and a number
-        required: true,
-    },
+    products: [
+        {
+            productName: { type: String, required: true },
+            productPrice: { type: Number, required: true },
+            productProperties: { type: String, required: true },
+        },
+    ],
     totalPrice: {
         type: Number,
         required: true,
